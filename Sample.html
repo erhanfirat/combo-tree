@@ -1,0 +1,146 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Test Plugin</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+	<h1>ComboTree jQuery Plugin v1.0</h1>
+	<hr />
+	<p>ComboTree has been developed to manage large amount of choices and tree structered data in combobox. Here is functions:
+		<ul>
+			<li>Multi/Single Selection</li>
+			<li>Get selection data as Id/Title array</li>
+			<li>Tree structured data list</li>
+			<li>Filtering</li>
+			<li>Read JSON data source</li>
+		</ul>
+	</p>
+	<br /><br />
+	<div style="width: 100%;">
+		<div style="width: 50%; float: left;">
+			<h3>Multi Selection</h3>
+			<input type="text" id="justAnInputBox" placeholder="Type to filter"/>
+		</div>
+
+		<div style="width: 50%; float:left;">
+			<h3>Single Selection</h3>
+			<input type="text" id="justAnotherInputBox" placeholder="Type to filter"/>
+		</div>
+
+		<div style="clear:both;">
+	</div>
+	<br /><br />
+	<p>
+		<h3>Configurations:</h3>
+		<ul>
+			<li><strong>source:</strong> {JSON OBJECT} It can take JSON data object</li>
+			<li><strong>isMultiple:</strong> {True/False} </li>
+		</ul>
+	</p>
+	<br /><br />
+	<p>
+		<h3>Usage:</h3>
+		<pre>
+	comboTree1 = $('#justAnInputBox').comboTree({
+		source : SampleJSONData,
+		isMultiple: true
+	});
+
+	// Array, One title/id, or False value return
+	comboTree1.getSelectedItemsTitle();
+	comboTree1.getSelectedItemsId();
+		</pre>
+	</p>
+	<br /><br />
+	<hr>
+	<div style="width: 100%; text-align: center; font-size: 12px;">
+		Erhan FIRAT © 2015 - erhanfirat@gmail.com
+	</div>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+<script src="script/icontains.js"  type="text/javascript"></script>
+<script src="script/comboTreePlugin.js"  type="text/javascript"></script>
+
+
+<script type="text/javascript">
+
+var SampleJSONData = [
+    {
+        id: 0,
+        title: 'choice 1  '
+    }, {
+        id: 1,
+        title: 'choice 2',
+        subs: [
+            {
+                id: 10,
+                title: 'choice 2 1'
+            }, {
+                id: 11,
+                title: 'choice 2 2'
+            }, {
+                id: 12,
+                title: 'choice 2 3'
+            }
+        ]
+    }, {
+        id: 2,
+        title: 'choice 3'
+    }, {
+        id: 3,
+        title: 'choice 4'
+    }, {
+        id: 4,
+        title: 'choice 5'
+    }, {
+        id: 5,
+        title: 'choice 6',
+        subs: [
+            {
+                id: 50,
+                title: 'choice 6 1'
+            }, {
+                id: 51,
+                title: 'choice 6 2',
+                subs: [
+                    {
+                        id: 510,
+                        title: 'choice 6 2 1'
+                    }, {
+                        id: 511,
+                        title: 'choice 6 2 2'
+                    }, {
+                        id: 512,
+                        title: 'choice 6 2 3'
+                    }
+                ]
+            }
+        ]
+    }, {
+        id: 6,
+        title: 'choice 7'
+    }
+];
+var comboTree1, comboTree2;
+
+jQuery(document).ready(function($) {
+
+		comboTree1 = $('#justAnInputBox').comboTree({
+			source : SampleJSONData,
+			isMultiple: true
+		});
+
+		comboTree2 = $('#justAnotherInputBox').comboTree({
+			source : SampleJSONData,
+			isMultiple: false
+		});
+});
+
+
+</script>
+</body>
+</html>
