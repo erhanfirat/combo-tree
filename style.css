@@ -9,10 +9,13 @@
 
 .comboTreeArrowBtn {
 	position: absolute;
-	top: 0;
-	width: 20px;
-	padding: 0;
-	margin: 0;
+    right: 1px;
+    bottom: 1px;
+    top: 1px;
+    box-sizing: border-box;
+	border: none;
+    border-left: 1px solid #c7c7c7;
+    border-radius: 0 3px 3px 0;
 }
 
 .comboTreeDropDownContainer {
@@ -65,4 +68,18 @@ span.comboTreeItemTitle{
     top: 4px;
     width: 4px;
     float: left;
+}
+
+
+.comboTreeInputBox {
+	padding: 5px;
+    border-radius: 3px;
+    border: 1px solid #999;
+    width: 100%;
+    box-sizing: border-box;
+    padding-right: 24px;
+}
+
+.comboTreeArrowBtnImg{
+	font-size: 10px;
 }

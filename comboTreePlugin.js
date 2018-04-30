@@ -32,6 +32,8 @@
         // Setting Doms
         this.comboTreeId = 'comboTree' + Math.floor(Math.random() * 999999);
 
+        this._elemInput.addClass('comboTreeInputBox');
+
         if(this._elemInput.attr('id') === undefined)
             this._elemInput.attr('id', this.comboTreeId + 'Input');
         this.elemInputId = this._elemInput.attr('id');
@@ -40,13 +42,8 @@
         this._elemInput.wrap('<div id="'+ this.comboTreeId + 'InputWrapper" class="comboTreeInputWrapper"></div>');
         this._elemWrapper = $('#' + this.comboTreeId + 'Wrapper');
 
-        this._elemArrowBtn = $('<button id="' + this.comboTreeId + 'ArrowBtn" class="comboTreeArrowBtn"><span class="comboTreeArrowBtnImg">▼</span></button>')
-                        .css({
-                            left: this._elemInput.outerWidth(),
-                            height: this._elemInput.outerHeight()
-                        });
+        this._elemArrowBtn = $('<button id="' + this.comboTreeId + 'ArrowBtn" class="comboTreeArrowBtn"><span class="comboTreeArrowBtnImg">▼</span></button>');
         this._elemInput.after(this._elemArrowBtn);
-        this._elemWrapper.css({ width: this._elemInput.outerWidth() + this._elemArrowBtn.outerWidth() });
         this._elemWrapper.append('<div id="' + this.comboTreeId + 'DropDownContainer" class="comboTreeDropDownContainer"><div class="comboTreeDropDownContent"></div>');
         
         // DORP DOWN AREA
