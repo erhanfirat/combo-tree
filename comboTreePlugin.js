@@ -40,6 +40,10 @@
     }
 
     ComboTree.prototype.init = function () {
+        // VARIABLES
+        this._selectedItem = {};
+        this._selectedItems = [];
+
         // Setting Doms
         this.comboTreeId = 'comboTree' + Math.floor(Math.random() * 999999);
 
@@ -64,15 +68,15 @@
         this._elemItems = this._elemDropDownContainer.find('li');
         this._elemItemsTitle = this._elemDropDownContainer.find('span.comboTreeItemTitle');
 
-        // VARIABLES
-        this._selectedItem = {};
-        this._selectedItems = [];
+        // ~
 
         this.bindings();
 
         if (typeof this.options.callbacks.onInitialized === 'function') {
             this.options.callbacks.onInitialized();
         }
+
+        this.refreshInputVal();
     };
 
 
@@ -109,11 +113,17 @@
             itemHtml += '<span class="comboTreeParentPlus">&minus;</span>';
         }
 
+        var checked = '';
+
+        if (sourceItem.selected === true) {
+            checked =  'checked="checked"';
+            this._selectedItems.push(sourceItem);
+        }
+
         if (typeof this.options.renderItem === 'function') {
             itemHtml += this.options.renderItem(sourceItem);
         } else {
             if (this.options.isMultiple) {
-                var checked = (sourceItem.selected === true) ? 'checked="checked"' : '';
                 itemHtml += '<span data-id="' + sourceItem.id + '" class="comboTreeItemTitle"><input type="checkbox" ' + checked + '>' + sourceItem.title + '</span>';
             } else {
                 itemHtml += '<span data-id="' + sourceItem.id + '" class="comboTreeItemTitle">' + sourceItem.title + '</span>';
@@ -152,7 +162,7 @@
         this._elemItemsTitle.on('click', function(e){
             e.stopPropagation();
             if (_this.options.isMultiple)
-                _this.multiItemClick(this);
+                _this.multiItemClick(this, e);
             else
                 _this.singleItemClick(this);
         });
@@ -178,34 +188,34 @@
                     break;
             }
         });
-        this._elemInput.on('keydown', function(e) {
-            e.stopPropagation();
+        this._elemInput.on('keydown', function(event) {
+            event.stopPropagation();
 
-            switch (e.keyCode) {
+            switch (event.keyCode) {
             case 9:
                 _this.closeDropDownMenu(); break;
             case 40: case 38:
-                e.preventDefault(); 
-                _this.dropDownInputKeyControl(e.keyCode - 39); break;
+                event.preventDefault();
+                _this.dropDownInputKeyControl(event.keyCode - 39); break;
             case 37: case 39:
-                e.preventDefault(); 
-                _this.dropDownInputKeyToggleTreeControl(e.keyCode - 38);
+                event.preventDefault();
+                _this.dropDownInputKeyToggleTreeControl(event.keyCode - 38);
                 break;
             case 13:
                 if (_this.options.isMultiple)
-                    _this.multiItemClick(_this._elemHoveredItem);
+                    _this.multiItemClick(_this._elemHoveredItem, event);
                 else
                     _this.singleItemClick(_this._elemHoveredItem);
-                e.preventDefault(); 
+                event.preventDefault();
                 break;
             default: 
                 if (_this.options.isMultiple)
-                    e.preventDefault();
+                    event.preventDefault();
         }
         });
         // ON FOCUS OUT CLOSE DROPDOWN
-        $(document).on('mouseup.' + _this.comboTreeId, function (e){
-            if (!_this._elemWrapper.is(e.target) && _this._elemWrapper.has(e.target).length === 0 && _this._elemDropDownContainer.is(':visible'))
+        $(document).on('mouseup.' + _this.comboTreeId, function (event){
+            if (!_this._elemWrapper.is(event.target) && _this._elemWrapper.has(event.target).length === 0 && _this._elemDropDownContainer.is(':visible'))
                 _this.closeDropDownMenu();
         });
     };
@@ -299,10 +309,10 @@
         
         this.closeDropDownMenu();
     };
-    ComboTree.prototype.multiItemClick = function (ctItem) {
+    ComboTree.prototype.multiItemClick = function (ctItem, event) {
         var self = this;
         var id = $(ctItem).attr("data-id");
-        this._selectedItem = {
+        var _selectedItem = {
             id: id,
             title: $(ctItem).text()
         };
@@ -310,20 +320,9 @@
         console.log($(ctItem).text());
 
 
-        // if (typeof this.options.callbacks.onItemClick === 'function') {
-        //     data = {
-        //         target: ctItem,
-        //         $target: $(ctItem),
-        //         selected: selected,
-        //         id: id,
-        //         mode: 'multi',
-        //     };
-        //     this.options.callbacks.onItemClick(data);
-        // }
-
         // ~
 
-        var index = this.isItemInArray(this._selectedItem, this._selectedItems);
+        var index = this.isItemInArray(_selectedItem, this._selectedItems);
         var selected = index !== false;
 
         if (!selected && this.options.autoSelectParent) {
@@ -345,7 +344,7 @@
             console.log('[ ] ' + $(ctItem).text());
         }
         else {
-            this._selectedItems.push(this._selectedItem);
+            this._selectedItems.push(_selectedItem);
             $(ctItem).find("input").prop('checked', true);
             console.log('[v] ' + $(ctItem).text());
         }
@@ -366,6 +365,21 @@
 
 
         this.refreshInputVal();
+
+        if (
+            'undefined' === typeof event &&
+            typeof this.options.callbacks.onItemClick === 'function'
+        ) {
+            data = {
+                target: ctItem,
+                $target: $(ctItem),
+                selected: selected,
+                id: id,
+                mode: 'multi',
+            };
+
+            this.options.callbacks.onItemClick(data);
+        }
     };
 
     ComboTree.prototype.isItemInArray = function (item, arr) {
