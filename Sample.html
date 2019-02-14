@@ -71,7 +71,8 @@
 var SampleJSONData = [
     {
         id: 0,
-        title: 'choice 1  '
+        title: 'choice 1  ',
+		selected: true,
     }, {
         id: 1,
         title: 'choice 2',
@@ -131,7 +132,16 @@ jQuery(document).ready(function($) {
 
 		comboTree1 = $('#justAnInputBox').comboTree({
 			source : SampleJSONData,
-			isMultiple: true
+			isMultiple: true,
+			callbacks: {
+			    onOpen: function() {console.log('open');},
+			    onClose: function() {console.log('close');},
+			    onItemClick: function(event) {console.log('item clicked', event);},
+			},
+			renderItem: function(item) {
+                var checked = (item.selected === true) ? 'checked="checked"' : '';
+                return '<span data-id="' + item.id + '" class="comboTreeItemTitle"><input type="checkbox" ' + checked + '><b>' + item.title + '</b></span>';
+			}
 		});
 
 		comboTree2 = $('#justAnotherInputBox').comboTree({
