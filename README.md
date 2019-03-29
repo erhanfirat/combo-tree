@@ -36,7 +36,7 @@ There should be an input element to apply and a JSON Data source.
 	
 
 
-##Sample JSON DATA
+## Sample JSON DATA
 
 Three parameter are needed: id, title and subs.
 
@@ -99,6 +99,6 @@ Three parameter are needed: id, title and subs.
 	];
 
 
-##User Friendly
+## User Friendly
 
 Key controls, well designed and esasy-read code structure, definitions and clear variable names are choosen to be read and used as much as comfortable I could.
