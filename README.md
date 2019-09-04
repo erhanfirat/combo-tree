@@ -1,6 +1,9 @@
-# ComboTree jQuery Plugin
+# ComboTree jQuery Plugin v 1.1
 
 ComboTree is a jQuery Plugin which is a combobox item with tree structured data list and multi/single selection options and more. It has been developed to manage large amount of choices and multi selection property. 
+
+## New Features:
+- Filter is added for Multiple Selection mode.
 
 ## Features:
 - Tree structured data list in combobox dropdown menu
@@ -102,3 +105,8 @@ Three parameter are needed: id, title and subs.
 ## User Friendly
 
 Key controls, well designed and esasy-read code structure, definitions and clear variable names are choosen to be read and used as much as comfortable I could.
+
+
+## You can donate to support me
+
+https://www.blockchain.com/btc/address/15c5AxBVgNxkwaHSTBZMiCV5PL41DKe88v
