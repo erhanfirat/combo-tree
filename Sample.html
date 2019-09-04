@@ -3,7 +3,8 @@
 <head>
 	<meta charset="utf-8">
 	<title>Test Plugin</title>
-<link rel="stylesheet" href="style.css">
+	<link rel="stylesheet" href="style.css">
+	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js"></script><script type="text/javascript" src="https://blockchain.info/Resources/js/pay-now-button.js"></script>
 </head>
 <body>
 
@@ -19,7 +20,7 @@
 		</ul>
 	</p>
 	<br /><br />
-	<div style="width: 100%;">
+	<p style="width: 100%;">
 		<div style="width: 50%; float: left; box-sizing: border-box; padding: 20px;">
 			<h3>Multi Selection</h3>
 			<input type="text" id="justAnInputBox" />
@@ -48,13 +49,53 @@
 		source : SampleJSONData,
 		isMultiple: true
 	});
-
-	// Array, One title/id, or False value return
-	comboTree1.getSelectedItemsTitle();
-	comboTree1.getSelectedItemsId();
+		</pre>
+	</p>
+	<p>
+		<h3>Methods:</h3>
+		<h4>getSelectedItemsTitle()</h4>
+		Returns title array of selected values. If nothing selected, it will return false.<br /><br />
+		<pre>
+		comboTree1.getSelectedItemsTitle();
+		</pre>
+		<h4>getSelectedItemsId()</h4>
+		Returns id array of selected values. If nothing selected, it will return false. <br /><br />
+		<pre>
+		comboTree1.getSelectedItemsId();
 		</pre>
 	</p>
 	<br /><br />
+
+	<p>
+		<h2>Donation</h2>
+	You can support me.<br />
+
+	<a href="https://www.blockchain.com/btc/address/15c5AxBVgNxkwaHSTBZMiCV5PL41DKe88v">
+		https://www.blockchain.com/btc/address/15c5AxBVgNxkwaHSTBZMiCV5PL41DKe88v
+	</a>
+
+	<div style="font-size:16px;margin:0 auto;width:300px" class="blockchain-btn"
+		 data-address="15c5AxBVgNxkwaHSTBZMiCV5PL41DKe88v"
+		 data-shared="false">
+		<div class="blockchain stage-begin">
+			<img src="https://blockchain.info/Resources/buttons/donate_64.png"/>
+		</div>
+		<div class="blockchain stage-loading" style="text-align:center">
+			<img src="https://blockchain.info/Resources/loading-large.gif"/>
+		</div>
+		<div class="blockchain stage-ready">
+			<p align="center">Please Donate To Bitcoin Address: <b>[[address]]</b></p>
+			<p align="center" class="qr-code"></p>
+		</div>
+		<div class="blockchain stage-paid">
+			Donation of <b>[[value]] BTC</b> Received. Thank You.
+		</div>
+		<div class="blockchain stage-error">
+			<font color="red">[[error]]</font>
+		</div>
+	</div>
+
+	</p>
 	<hr>
 	<div style="width: 100%; text-align: center; font-size: 12px;">
 		Erhan FIRAT © 2015 - erhanfirat@gmail.com
