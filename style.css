@@ -27,6 +27,7 @@
 	position: absolute;
     width: 100%;
     box-sizing: border-box;
+    z-index: 999;
 }
 
 .comboTreeDropDownContainer ul{
