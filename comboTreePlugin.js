@@ -3,6 +3,7 @@
  * Author:  Erhan FIRAT
  * Mail:    erhanfirat@gmail.com
  * Licensed under the MIT license
+ * Version: 1.1
  */
 
 
@@ -34,7 +35,7 @@
 
         this._elemInput.addClass('comboTreeInputBox');
 
-        if(this._elemInput.attr('id') === undefined)
+        if (this._elemInput.attr('id') === undefined)
             this._elemInput.attr('id', this.comboTreeId + 'Input');
         this.elemInputId = this._elemInput.attr('id');
 
@@ -71,9 +72,16 @@
     };
 
     ComboTree.prototype.createSourceHTML = function () {
-        var htmlText = this.createSourceSubItemsHTML(this.options.source);
-        return htmlText;
+        var sourceHTML = '';
+        if (this.options.isMultiple)
+            sourceHTML = this.createFilterHTMLForMultiSelect();
+        sourceHTML += this.createSourceSubItemsHTML(this.options.source);
+        return sourceHTML;
     };
+
+    ComboTree.prototype.createFilterHTMLForMultiSelect = function (){
+        return '<input id="' + this.comboTreeId + 'MultiFilter" type="text" class="multiplesFilter" placeholder="Type to filter"/>';
+    }
 
     ComboTree.prototype.createSourceSubItemsHTML = function (subItems) {
         var subItemsHtml = '<UL>';
@@ -151,10 +159,24 @@
                     break;
                 default: 
                     if (!_this.options.isMultiple)
-                        _this.filterDropDownMenu(); 
+                        _this.filterDropDownMenu();
                     break;
             }
         });
+        if (_this.options.isMultiple) {
+            $("#" + _this.comboTreeId + "MultiFilter").on('keyup', function(e) {
+                e.stopPropagation();
+
+                switch (e.keyCode) {
+                    case 27:
+                        $(this).val(''); _this.filterDropDownMenu(); break;
+                    default:
+                        _this.filterDropDownMenu();
+                        break;
+                }
+            });
+        }
+
         this._elemInput.on('keydown', function(e) {
             e.stopPropagation();
 
@@ -260,11 +282,9 @@
     };
 
     ComboTree.prototype.isItemInArray = function (item, arr) {
-
         for (var i=0; i<arr.length; i++)
             if (item.id == arr[i].id && item.title == arr[i].title)
                 return i + "";
-
         return false;
     }
 
@@ -326,11 +346,16 @@
     },
 
     ComboTree.prototype.filterDropDownMenu = function () {
-        var searchText = this._elemInput.val();
+        var searchText =  '';
+        if (!this.options.isMultiple)
+            searchText = this._elemInput.val();
+        else
+            searchText = $("#" + this.comboTreeId + "MultiFilter").val();
+
         if (searchText != ""){
             this._elemItemsTitle.hide();
             this._elemItemsTitle.siblings("span.comboTreeParentPlus").hide();
-            list = this._elemItems.find("span:icontains('" + this._elemInput.val() + "')").each(function (i, elem) {
+            list = this._elemItems.find("span:icontains('" + searchText + "')").each(function (i, elem) {
                 $(this).show();
                 $(this).siblings("span.comboTreeParentPlus").show();
             });    
@@ -392,7 +417,7 @@
     }
 
 
-    $.fn[comboTreePlugin] = function ( options) {
+    $.fn[comboTreePlugin] = function (options) {
         var ctArr = [];
         this.each(function () {
             if (!$.data(this, 'plugin_' + comboTreePlugin)) {

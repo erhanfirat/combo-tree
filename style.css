@@ -83,3 +83,13 @@ span.comboTreeItemTitle{
 .comboTreeArrowBtnImg{
 	font-size: 10px;
 }
+
+.multiplesFilter{
+	width: 100%;
+	padding: 5px;
+	box-sizing: border-box;
+	border-top: none;
+	border-left: none;
+	border-right: none;
+	border-bottom: 1px solid #999;
+}
