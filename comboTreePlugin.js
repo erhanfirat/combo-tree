@@ -3,7 +3,8 @@
  * Author:  Erhan FIRAT
  * Mail:    erhanfirat@gmail.com
  * Licensed under the MIT license
- * Version: 1.1
+ * Version: 1.1.1
+ * Updated by: Yomi Olatunji
  */
 
 
@@ -13,7 +14,8 @@
     var comboTreePlugin = 'comboTree',
         defaults = {
             source: [], 
-            isMultiple: false
+            isMultiple: false, 
+            cascadeSelect: false
         };
 
     // The actual plugin constructor
@@ -253,17 +255,8 @@
 
     // SELECTION FUNCTIONS
     // *****************************
-    ComboTree.prototype.singleItemClick = function (ctItem) {
-        this._selectedItem = {
-            id: $(ctItem).attr("data-id"),
-            title: $(ctItem).text()
-        };
-
-        this.refreshInputVal();
-        this.closeDropDownMenu();
-    };
-    ComboTree.prototype.multiItemClick = function (ctItem) {
-        this._selectedItem = {
+	ComboTree.prototype.selectMultipleItem=function(ctItem){
+		this._selectedItem = {
             id: $(ctItem).attr("data-id"),
             title: $(ctItem).text()
         };
@@ -277,9 +270,34 @@
             this._selectedItems.push(this._selectedItem);
             $(ctItem).find("input").prop('checked', true);
         }
+	}
+	
+    ComboTree.prototype.singleItemClick = function (ctItem) {
+        this._selectedItem = {
+            id: $(ctItem).attr("data-id"),
+            title: $(ctItem).text()
+        };
 
         this.refreshInputVal();
+        this.closeDropDownMenu();
     };
+    ComboTree.prototype.multiItemClick = function (ctItem) {
+        this.selectMultipleItem(ctItem);
+		if(this.options.cascadeSelect){
+			if ($(ctItem).parent('li').hasClass('ComboTreeItemParent')){
+				var subMenu = $(ctItem).parent('li').children('ul').first().find('input[type="checkbox"]');
+				subMenu.each(function() {
+					var $input = $(this)
+					if($(ctItem).children('input[type="checkbox"]').first().prop("checked")!==$input.prop('checked')){
+					$input.prop('checked', !$(ctItem).children('input[type="checkbox"]').first().prop("checked"));
+					$input.trigger('click');
+					}
+				});
+			}
+		}
+        this.refreshInputVal();
+    };
+	
 
     ComboTree.prototype.isItemInArray = function (item, arr) {
         for (var i=0; i<arr.length; i++)
