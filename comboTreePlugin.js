@@ -397,13 +397,15 @@
                 return $(this).data('id') == element;
             });
 
-            $(selected).find('input').attr('checked', true);
+            if(selected){
+                $(selected).find('input').attr('checked', true);
 
-            selectedItem = {
-                id: selected.data("id"),
-                title: selected.text()
-            };
-            selectedItems.push(selectedItem);
+                selectedItem = {
+                    id: selected.data("id"),
+                    title: selected.text()
+                };
+                selectedItems.push(selectedItem);
+            }
         });
 
         this.refreshInputVal();
