@@ -15,7 +15,8 @@
         defaults = {
             source: [], 
             isMultiple: false, 
-            cascadeSelect: false
+            cascadeSelect: false,
+            selected: [],
         };
 
     // The actual plugin constructor
@@ -59,6 +60,8 @@
         // VARIABLES
         this._selectedItem = {};
         this._selectedItems = [];
+
+        this.processSelected();
 
         this.bindings();
     };
@@ -383,6 +386,27 @@
             this._elemItemsTitle.show();
             this._elemItemsTitle.siblings("span.comboTreeParentPlus").show();
         }
+    }
+
+    ComboTree.prototype.processSelected = function () {
+        var elements = this._elemItemsTitle;
+        var selectedItem = this._selectedItems;
+        var selectedItems = this._selectedItems;
+        this.options.selected.forEach(function(element) {
+            var selected = $(elements).filter(function(){
+                return $(this).data('id') == element;
+            });
+
+            $(selected).find('input').attr('checked', true);
+
+            selectedItem = {
+                id: selected.data("id"),
+                title: selected.text()
+            };
+            selectedItems.push(selectedItem);
+        });
+
+        this.refreshInputVal();
     }
 
     // Retuns Array (multiple), Integer (single), or False (No choice)
