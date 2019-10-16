@@ -321,6 +321,7 @@
         }
 
         this._elemInput.val(tmpTitle);
+        this._elemInput.trigger('change');
     }
 
     ComboTree.prototype.dropDownMenuHover = function (itemSpan, withScroll) {
