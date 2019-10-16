@@ -397,7 +397,7 @@
                 return $(this).data('id') == element;
             });
 
-            if(selected){
+            if(selected.length > 0){
                 $(selected).find('input').attr('checked', true);
 
                 selectedItem = {
