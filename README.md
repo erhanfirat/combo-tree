@@ -22,6 +22,7 @@ ComboTree is a jQuery Plugin which is a combobox item with tree structured data 
 - isMultiple: {True/False} | decide if it is multiple selection behaviour or single
 - cascadeSelect: {True/False} | decide if parent selection should cascade to children in multiple selection
 - source: {JSON Data Array} | takes source of combobox dropdown menu as a JSON array.
+- selected: {JSON Data Array} | takes the list of ID's that corespond from the source.
 
 ## Usage
 
@@ -30,7 +31,8 @@ There should be an input element to apply and a JSON Data source.
 	comboTree1 = $('#justAnInputBox').comboTree({
 		source : SampleJSONData,
 		isMultiple: true,
-		cascadeSelect: true
+		cascadeSelect: true,
+		selected: ['0']
 	});
 
 	// Array, One title/id, or False value return
