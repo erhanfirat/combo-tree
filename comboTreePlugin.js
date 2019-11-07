@@ -390,7 +390,7 @@
 
     ComboTree.prototype.processSelected = function () {
         var elements = this._elemItemsTitle;
-        var selectedItem = this._selectedItems;
+        var selectedItem = this._selectedItem;
         var selectedItems = this._selectedItems;
         this.options.selected.forEach(function(element) {
             var selected = $(elements).filter(function(){
@@ -407,6 +407,9 @@
                 selectedItems.push(selectedItem);
             }
         });
+	    
+    	//Without this it doesn't work
+    	this._selectedItem = selectedItem;
 
         this.refreshInputVal();
     }
