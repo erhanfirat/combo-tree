@@ -377,7 +377,7 @@
         if (searchText != ""){
             this._elemItemsTitle.hide();
             this._elemItemsTitle.siblings("span.comboTreeParentPlus").hide();
-            list = this._elemItems.find("span:icontains('" + searchText + "')").each(function (i, elem) {
+            list = this._elemItems.find("span\\:icontains('" + searchText + "')").each(function (i, elem) {
                 $(this).show();
                 $(this).siblings("span.comboTreeParentPlus").show();
             });    
