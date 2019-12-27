@@ -1,3 +1,12 @@
+
+:root {
+    --ct-bg: #fff;
+    --ct-border-color: #eee;
+    --ct-tree-hover: #EEEEEE;
+    --ct-selection: #418EFF;
+}
+
+
 .comboTreeWrapper{
 	position: relative;
 	text-align: left !important;
@@ -14,14 +23,14 @@
     top: 1px;
     box-sizing: border-box;
 	border: none;
-    border-left: 1px solid #c7c7c7;
+    border-left: 1px solid var(--ct-border-color);
     border-radius: 0 3px 3px 0;
 }
 
 .comboTreeDropDownContainer {
 	display: none;
-	background: #fff;
-	border: 1px solid #aaa;
+	background: var(--ct-bg);
+	border: 1px solid var(--ct-border-color);
 	position: absolute;
     width: 100%;
     box-sizing: border-box;
@@ -42,12 +51,12 @@
 }
 
 .comboTreeDropDownContainer li:hover{
-	background-color: #ddd;}
+	background-color: var(--ct-tree-hover);}
 .comboTreeDropDownContainer li:hover ul{
-	background-color: #fff;}
+	background-color: var(--ct-bg)}
 .comboTreeDropDownContainer li span.comboTreeItemTitle.comboTreeItemHover{
-	background-color: #418EFF;
-	color: #fff;}
+	background-color: var(--ct-selection);
+	color: var(--ct-bg);}
 
 span.comboTreeItemTitle{
 	display: block;
@@ -75,7 +84,7 @@ span.comboTreeItemTitle{
 .comboTreeInputBox {
 	padding: 5px;
     border-radius: 3px;
-    border: 1px solid #999;
+    border: 1px solid var(--ct-border-color);
     width: 100%;
     box-sizing: border-box;
     padding-right: 24px;
@@ -92,5 +101,5 @@ span.comboTreeItemTitle{
 	border-top: none;
 	border-left: none;
 	border-right: none;
-	border-bottom: 1px solid #999;
+	border-bottom: 1px solid var(--ct-border-color);
 }
