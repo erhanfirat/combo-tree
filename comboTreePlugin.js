@@ -3,7 +3,7 @@
  * Author:  Erhan FIRAT
  * Mail:    erhanfirat@gmail.com
  * Licensed under the MIT license
- * Version: 1.1.1
+ * Version: 1.1.2
  * Updated by: Yomi Olatunji
  */
 
@@ -46,7 +46,7 @@
         this._elemInput.wrap('<div id="'+ this.comboTreeId + 'InputWrapper" class="comboTreeInputWrapper"></div>');
         this._elemWrapper = $('#' + this.comboTreeId + 'Wrapper');
 
-        this._elemArrowBtn = $('<button id="' + this.comboTreeId + 'ArrowBtn" class="comboTreeArrowBtn" type="button"><span class="comboTreeArrowBtnImg">▼</span></button>');
+        this._elemArrowBtn = $('<div id="' + this.comboTreeId + 'ArrowBtn" class="comboTreeArrowBtn" type="button"><span class="comboTreeArrowBtnImg">▼</span></div>');
         this._elemInput.after(this._elemArrowBtn);
         this._elemWrapper.append('<div id="' + this.comboTreeId + 'DropDownContainer" class="comboTreeDropDownContainer"><div class="comboTreeDropDownContent"></div>');
         
@@ -54,6 +54,8 @@
         this._elemDropDownContainer = $('#' + this.comboTreeId + 'DropDownContainer');
 
         this._elemDropDownContainer.html(this.createSourceHTML());
+        this._elemFilterInput = this.options.isMultiple ? $('#' + this.comboTreeId + 'MultiFilter') : null;
+        this._elemSourceUl = $('#' + this.comboTreeId + 'ComboTreeSourceUl');
         
         this._elemItems = this._elemDropDownContainer.find('li');
         this._elemItemsTitle = this._elemDropDownContainer.find('span.comboTreeItemTitle');
@@ -90,7 +92,7 @@
     }
 
     ComboTree.prototype.createSourceSubItemsHTML = function (subItems) {
-        var subItemsHtml = '<UL>';
+        var subItemsHtml = '<UL id="' + this.comboTreeId + 'ComboTreeSourceUl">';
         for (var i=0; i<subItems.length; i++){
             subItemsHtml += this.createSourceItemHTML(subItems[i]);
         }
@@ -132,13 +134,12 @@
 
         this._elemArrowBtn.on('click', function(e){
             e.stopPropagation();
-            // $(_this._elemInput).focus();
             _this.toggleDropDown();
         });
         this._elemInput.on('click', function(e){
             e.stopPropagation();
-            // if (!_this._elemDropDownContainer.is(':visible'))
-            //     _this.toggleDropDown();
+            if (!_this._elemDropDownContainer.is(':visible'))
+                _this.toggleDropDown();
         });
         this._elemItems.on('click', function(e){
             e.stopPropagation();
@@ -175,19 +176,35 @@
                     break;
             }
         });
-        if (_this.options.isMultiple) {
-            $("#" + _this.comboTreeId + "MultiFilter").on('keyup', function(e) {
-                e.stopPropagation();
 
-                switch (e.keyCode) {
-                    case 27:
-                        $(this).val(''); _this.filterDropDownMenu(); break;
-                    default:
+        this._elemFilterInput && this._elemFilterInput.on('keyup', function (e) {
+            e.stopPropagation();
+
+            switch (e.keyCode) {
+                case 27:
+                    if ($(this).val()) {
+                        $(this).val('');
                         _this.filterDropDownMenu();
-                        break;
-                }
-            });
-        }
+                    } else {
+                        _this.closeDropDownMenu();
+                    }
+                    break;
+                case 40: case 38:
+                    e.preventDefault();
+                    _this.dropDownInputKeyControl(e.keyCode - 39); break;
+                case 37: case 39:
+                    e.preventDefault();
+                    _this.dropDownInputKeyToggleTreeControl(e.keyCode - 38);
+                    break;
+                case 13:
+                    _this.multiItemClick(_this._elemHoveredItem);
+                    e.preventDefault();
+                    break;
+                default:
+                    _this.filterDropDownMenu();
+                    break;
+            }
+        });
 
         this._elemInput.on('keydown', function(e) {
             e.stopPropagation();
@@ -214,6 +231,8 @@
                     e.preventDefault();
         }
         });
+
+
         // ON FOCUS OUT CLOSE DROPDOWN
         $(document).on('mouseup.' + _this.comboTreeId, function (e){
             if (!_this._elemWrapper.is(e.target) && _this._elemWrapper.has(e.target).length === 0 && _this._elemDropDownContainer.is(':visible'))
@@ -347,8 +366,8 @@
     }
 
     ComboTree.prototype.dropDownScrollToHoveredItem = function (itemSpan) {
-        var curScroll = this._elemDropDownContainer.scrollTop();
-        this._elemDropDownContainer.scrollTop(curScroll + $(itemSpan).parent().position().top - 80);
+        var curScroll = this._elemSourceUl.scrollTop();
+        this._elemSourceUl.scrollTop(curScroll + $(itemSpan).parent().position().top - 80);
     }
 
     ComboTree.prototype.dropDownMenuHoverToParentItem = function (item) {

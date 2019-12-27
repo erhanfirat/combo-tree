@@ -1,6 +1,9 @@
 
 :root {
     --ct-bg: #fff;
+    --ct-btn-hover: #e8e8e8;
+    --ct-btn-active: #ddd;
+    --ct-btn-color: #555;
     --ct-border-color: #e1e1e1;
     --ct-border-radius: 5px;
     --ct-tree-hover: #EEEEEE;
@@ -20,13 +23,36 @@
 
 .comboTreeArrowBtn {
 	position: absolute;
-    right: 1px;
-    bottom: 1px;
-    top: 1px;
+    right: 0px;
+    bottom: 0px;
+    top: 0px;
     box-sizing: border-box;
-	border: none;
-    border-left: 1px solid var(--ct-border-color);
+    border: 1px solid var(--ct-border-color);
     border-radius: 0 var(--ct-border-radius) var(--ct-border-radius) 0;
+    background: var(--ct-border-color);
+    cursor: pointer;
+    -webkit-user-select: none; /* Safari */
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* IE10+/Edge */
+    user-select: none; /* Standard */
+}
+.comboTreeArrowBtn:hover {
+    background: var(--ct-btn-hover);
+}
+.comboTreeArrowBtn:active {
+    background: var(--ct-btn-active);
+}
+.comboTreeInputBox:focus + .comboTreeArrowBtn {
+    color: var(--ct-btn-color);
+    border-top: 1px solid var(--ct-selection);
+    border-right: 1px solid var(--ct-selection);
+    border-bottom: 1px solid var(--ct-selection);
+}
+
+.comboTreeArrowBtnImg{
+    font-size: 10px;
+    padding: 0 12px;
+    line-height: calc((var(--ct-padding) * 2) + 20px );
 }
 
 .comboTreeDropDownContainer {
@@ -96,9 +122,6 @@ span.comboTreeItemTitle{
     outline-width: 0;
 }
 
-.comboTreeArrowBtnImg{
-	font-size: 10px;
-}
 
 .multiplesFilter{
 	width: 100%;
