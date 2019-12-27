@@ -109,6 +109,50 @@ var SampleJSONData = [
         title: 'Fish'
     }
 ];
+var SampleJSONData2 = [
+    {
+        id: 1,
+        title: 'Four Wheels',
+		subs: [
+			{
+				id: 10,
+				title: 'Car'
+			}, {
+				id: 11,
+				title: 'Truck'
+			}, {
+				id: 12,
+				title: 'Transporter'
+			}, {
+				id: 13,
+				title: 'Dozer'
+			}
+		]
+    }, {
+        id: 2,
+        title: 'Two Wheels',
+        subs: [
+            {
+                id: 20,
+                title: 'Cycle'
+            }, {
+                id: 21,
+                title: 'Motorbike'
+            }, {
+                id: 22,
+                title: 'Scooter'
+            }
+        ]
+    }, {
+        id: 2,
+        title: 'Van'
+    }, {
+        id: 3,
+        title: 'Bus'
+    }
+];
+
+
 var comboTree1, comboTree2;
 
 jQuery(document).ready(function($) {
@@ -124,6 +168,8 @@ jQuery(document).ready(function($) {
 			isMultiple: true,
 			cascadeSelect: true
 		});
+
+		comboTree3.setSource(SampleJSONData2);
 
 
 		comboTree2 = $('#justAnotherInputBox').comboTree({

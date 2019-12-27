@@ -19,16 +19,20 @@
             selected: [],
         };
 
-    // Constructor
+    // LIFE CYCLE
     function ComboTree( element, options ) {
+
+        this.options = $.extend( {}, defaults, options) ;
+        this._defaults = defaults;
+        this._name = comboTreePlugin;
+
+        this.constructorFunc(element, options);
+    }
+
+    ComboTree.prototype.constructorFunc = function(element, options){
         this.elemInput = element;
         this._elemInput = $(element);
 
-        this.options = $.extend( {}, defaults, options) ;
-        
-        this._defaults = defaults;
-        this._name = comboTreePlugin;
-        
         this.init();
     }
 
@@ -69,11 +73,28 @@
         this.bindings();
     };
 
+    ComboTree.prototype.unbind = function () {
+        this._elemArrowBtn.off('click');
+        this._elemInput.off('click');
+        this._elemItems.off('click');
+        this._elemItemsTitle.off('click');
+        this._elemItemsTitle.off("mousemove");
+        this._elemInput.off('keyup');
+        this._elemInput.off('keydown');
+        this._elemInput.off('mouseup.' + this.comboTreeId);
+        $(document).off('mouseup.' + this.comboTreeId);
+    }
+
+    ComboTree.prototype.destroy = function () {
+        this.unbind();
+        this._elemWrapper.before(this._elemInput);
+        this._elemWrapper.remove();
+        //this._elemInput.removeData('plugin_' + comboTreePlugin);
+    }
 
 
-    // *********************************
-    // CREATE DOMS
-    // *********************************
+
+    // CREATE DOM HTMLs
 
     ComboTree.prototype.removeSourceHTML = function () {
         this._elemDropDownContainer.html('');
@@ -121,9 +142,8 @@
         return itemHtml;
     };
 
-    // *********************************
+
     // BINDINGS
-    // *********************************
     ComboTree.prototype.bindings = function () {
         var _this = this;
 
@@ -243,8 +263,7 @@
 
 
 
-    // EVENTS HERE 
-    // ****************************
+    // EVENTS HERE
 
     // DropDown Menu Open/Close
     ComboTree.prototype.toggleDropDown = function () {
@@ -286,7 +305,6 @@
 
 
     // SELECTION FUNCTIONS
-    // *****************************
 	ComboTree.prototype.selectMultipleItem=function(ctItem){
 		this._selectedItem = {
             id: $(ctItem).attr("data-id"),
@@ -444,8 +462,11 @@
         this.refreshInputVal();
     }
 
-    // Retuns Array (multiple), Integer (single), or False (No choice)
-    ComboTree.prototype.getSelectedItemsId = function () {
+
+    // METHODS
+
+    // Returns selected id array or null
+    ComboTree.prototype.getSelectedIds = function () {
         if (this.options.isMultiple && this._selectedItems.length>0){
             var tmpArr = [];
             for (i=0; i<this._selectedItems.length; i++)
@@ -454,13 +475,13 @@
             return tmpArr;
         }
         else if (!this.options.isMultiple && this._selectedItem.hasOwnProperty('id')){
-            return this._selectedItem.id;
+            return [this._selectedItem.id];
         }
         return null;
     }
 
     // Retuns Array (multiple), Integer (single), or False (No choice)
-    ComboTree.prototype.getSelectedItemsTitle = function () {
+    ComboTree.prototype.getSelectedNames = function () {
         if (this.options.isMultiple && this._selectedItems.length>0){
             var tmpArr = [];
             for (i=0; i<this._selectedItems.length; i++)
@@ -474,25 +495,12 @@
         return null;
     }
 
+    ComboTree.prototype.setSource = function(source) {
+        this.destroy();
+        this.options.source = source;
+        this.constructorFunc(this.elemInput, this.options);
+    };
 
-    ComboTree.prototype.unbind = function () {
-        this._elemArrowBtn.off('click');
-        this._elemInput.off('click');
-        this._elemItems.off('click');        
-        this._elemItemsTitle.off('click');
-        this._elemItemsTitle.off("mousemove");
-        this._elemInput.off('keyup');
-        this._elemInput.off('keydown');
-        this._elemInput.off('mouseup.' + this.comboTreeId);
-        $(document).off('mouseup.' + this.comboTreeId);
-    }
-
-    ComboTree.prototype.destroy = function () {
-        this.unbind();
-        this._elemWrapper.before(this._elemInput);
-        this._elemWrapper.remove();
-        this._elemInput.removeData('plugin_' + comboTreePlugin);
-    }
 
 
     $.fn[comboTreePlugin] = function (options) {
