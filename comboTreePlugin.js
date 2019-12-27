@@ -478,7 +478,7 @@
             return [this._selectedItem.id];
         }
         return null;
-    }
+    };
 
     // Retuns Array (multiple), Integer (single), or False (No choice)
     ComboTree.prototype.getSelectedNames = function () {
@@ -493,9 +493,11 @@
             return this._selectedItem.title;
         }
         return null;
-    }
+    };
 
     ComboTree.prototype.setSource = function(source) {
+        this._selectedItems = [];
+
         this.destroy();
         this.options.source = source;
         this.constructorFunc(this.elemInput, this.options);
