@@ -15,7 +15,8 @@
         defaults = {
             source: [], 
             isMultiple: false, 
-            cascadeSelect: false
+            cascadeSelect: false,
+            selected: [],
         };
 
     // The actual plugin constructor
@@ -45,7 +46,7 @@
         this._elemInput.wrap('<div id="'+ this.comboTreeId + 'InputWrapper" class="comboTreeInputWrapper"></div>');
         this._elemWrapper = $('#' + this.comboTreeId + 'Wrapper');
 
-        this._elemArrowBtn = $('<button id="' + this.comboTreeId + 'ArrowBtn" class="comboTreeArrowBtn"><span class="comboTreeArrowBtnImg">▼</span></button>');
+        this._elemArrowBtn = $('<button id="' + this.comboTreeId + 'ArrowBtn" class="comboTreeArrowBtn" type="button"><span class="comboTreeArrowBtnImg">▼</span></button>');
         this._elemInput.after(this._elemArrowBtn);
         this._elemWrapper.append('<div id="' + this.comboTreeId + 'DropDownContainer" class="comboTreeDropDownContainer"><div class="comboTreeDropDownContent"></div>');
         
@@ -59,6 +60,8 @@
         // VARIABLES
         this._selectedItem = {};
         this._selectedItems = [];
+
+        this.processSelected();
 
         this.bindings();
     };
@@ -321,6 +324,7 @@
         }
 
         this._elemInput.val(tmpTitle);
+        this._elemInput.trigger('change');
     }
 
     ComboTree.prototype.dropDownMenuHover = function (itemSpan, withScroll) {
@@ -373,7 +377,7 @@
         if (searchText != ""){
             this._elemItemsTitle.hide();
             this._elemItemsTitle.siblings("span.comboTreeParentPlus").hide();
-            list = this._elemItems.find("span:icontains('" + searchText + "')").each(function (i, elem) {
+            list = this._elemItems.find("span\\:icontains('" + searchText + "')").each(function (i, elem) {
                 $(this).show();
                 $(this).siblings("span.comboTreeParentPlus").show();
             });    
@@ -382,6 +386,32 @@
             this._elemItemsTitle.show();
             this._elemItemsTitle.siblings("span.comboTreeParentPlus").show();
         }
+    }
+
+    ComboTree.prototype.processSelected = function () {
+        var elements = this._elemItemsTitle;
+        var selectedItem = this._selectedItem;
+        var selectedItems = this._selectedItems;
+        this.options.selected.forEach(function(element) {
+            var selected = $(elements).filter(function(){
+                return $(this).data('id') == element;
+            });
+
+            if(selected.length > 0){
+                $(selected).find('input').attr('checked', true);
+
+                selectedItem = {
+                    id: selected.data("id"),
+                    title: selected.text()
+                };
+                selectedItems.push(selectedItem);
+            }
+        });
+	    
+    	//Without this it doesn't work
+    	this._selectedItem = selectedItem;
+
+        this.refreshInputVal();
     }
 
     // Retuns Array (multiple), Integer (single), or False (No choice)
