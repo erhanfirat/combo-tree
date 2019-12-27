@@ -6,7 +6,7 @@
     --ct-btn-color: #555;
     --ct-border-color: #e1e1e1;
     --ct-border-radius: 5px;
-    --ct-tree-hover: #EEEEEE;
+    --ct-tree-hover: #efefef;
     --ct-selection: #418EFF;
     --ct-padding: 8px;
 }
@@ -84,11 +84,13 @@
 	background-color: var(--ct-bg)}
 .comboTreeDropDownContainer li span.comboTreeItemTitle.comboTreeItemHover{
 	background-color: var(--ct-selection);
-	color: var(--ct-bg);}
+	color: var(--ct-bg);
+    border-radius: 2px;
+}
 
 span.comboTreeItemTitle{
 	display: block;
-	padding: 2px 4px;
+    padding: 3px var(--ct-padding);
 }
 .comboTreeDropDownContainer label{
     cursor: pointer;
