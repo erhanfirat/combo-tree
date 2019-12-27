@@ -10,7 +10,7 @@
 
 ;(function ( $, window, document, undefined ) {
     
-    // Create the defaults once
+    // Default settings
     var comboTreePlugin = 'comboTree',
         defaults = {
             source: [], 
@@ -19,7 +19,7 @@
             selected: [],
         };
 
-    // The actual plugin constructor
+    // Constructor
     function ComboTree( element, options ) {
         this.elemInput = element;
         this._elemInput = $(element);
@@ -52,6 +52,7 @@
         
         // DORP DOWN AREA
         this._elemDropDownContainer = $('#' + this.comboTreeId + 'DropDownContainer');
+
         this._elemDropDownContainer.html(this.createSourceHTML());
         
         this._elemItems = this._elemDropDownContainer.find('li');
@@ -69,7 +70,7 @@
 
 
     // *********************************
-    // SOURCES CODES
+    // CREATE DOMS
     // *********************************
 
     ComboTree.prototype.removeSourceHTML = function () {
@@ -118,20 +119,26 @@
         return itemHtml;
     };
 
-
+    // *********************************
     // BINDINGS
-    // *****************************
+    // *********************************
     ComboTree.prototype.bindings = function () {
         var _this = this;
 
+        $(this._elemInput).focus(function (e) {
+            if (!_this._elemDropDownContainer.is(':visible'))
+                $(_this._elemDropDownContainer).slideToggle(100);
+        });
+
         this._elemArrowBtn.on('click', function(e){
             e.stopPropagation();
+            // $(_this._elemInput).focus();
             _this.toggleDropDown();
         });
         this._elemInput.on('click', function(e){
             e.stopPropagation();
-            if (!_this._elemDropDownContainer.is(':visible'))
-                _this.toggleDropDown();
+            // if (!_this._elemDropDownContainer.is(':visible'))
+            //     _this.toggleDropDown();
         });
         this._elemItems.on('click', function(e){
             e.stopPropagation();
@@ -222,11 +229,14 @@
 
     // DropDown Menu Open/Close
     ComboTree.prototype.toggleDropDown = function () {
-        this._elemDropDownContainer.slideToggle(50);
-        this._elemInput.focus();
+        let _this = this;
+        $(this._elemDropDownContainer).slideToggle(100, function () {
+            if (_this._elemDropDownContainer.is(':visible'))
+                $(_this._elemInput).focus();
+        });
     };
     ComboTree.prototype.closeDropDownMenu = function () {
-        this._elemDropDownContainer.slideUp(50);
+        $(this._elemDropDownContainer).slideUp(100);
     };
     // Selection Tree Open/Close
     ComboTree.prototype.toggleSelectionTree = function (item, direction) {
@@ -325,6 +335,7 @@
 
         this._elemInput.val(tmpTitle);
         this._elemInput.trigger('change');
+        this._elemInput.focus();
     }
 
     ComboTree.prototype.dropDownMenuHover = function (itemSpan, withScroll) {
@@ -426,7 +437,7 @@
         else if (!this.options.isMultiple && this._selectedItem.hasOwnProperty('id')){
             return this._selectedItem.id;
         }
-        return false;
+        return null;
     }
 
     // Retuns Array (multiple), Integer (single), or False (No choice)
@@ -441,7 +452,7 @@
         else if (!this.options.isMultiple && this._selectedItem.hasOwnProperty('id')){
             return this._selectedItem.title;
         }
-        return false;
+        return null;
     }
 
 
