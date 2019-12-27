@@ -22,8 +22,6 @@
 	display: none;
 	background: #fff;
 	border: 1px solid #aaa;
-	max-height: 250px;
-	overflow-y: auto;
 	position: absolute;
     width: 100%;
     box-sizing: border-box;
@@ -33,6 +31,8 @@
 .comboTreeDropDownContainer ul{
 	padding: 0px;
 	margin: 0;
+	max-height: 250px;
+	overflow-y: auto;
 }
 
 .comboTreeDropDownContainer li{
