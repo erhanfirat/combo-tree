@@ -3,8 +3,7 @@
  * Author:  Erhan FIRAT
  * Mail:    erhanfirat@gmail.com
  * Licensed under the MIT license
- * Version: 1.1.2
- * Updated by: Yomi Olatunji
+ * Version: 1.1.3
  */
 
 
@@ -125,7 +124,7 @@
         var itemHtml = "",
             isThereSubs = sourceItem.hasOwnProperty("subs");
         
-        itemHtml = '<LI class="ComboTreeItem' + (isThereSubs?'Parent':'Chlid') + '"> ';
+        itemHtml = '<LI id="' + this.comboTreeId + 'Li' + sourceItem.id + '" class="ComboTreeItem' + (isThereSubs?'Parent':'Chlid') + '"> ';
         
         if (isThereSubs)
             itemHtml += '<span class="comboTreeParentPlus">&minus;</span>';
@@ -144,6 +143,7 @@
 
 
     // BINDINGS
+
     ComboTree.prototype.bindings = function () {
         var _this = this;
 
@@ -263,6 +263,7 @@
 
 
 
+
     // EVENTS HERE
 
     // DropDown Menu Open/Close
@@ -276,6 +277,7 @@
     ComboTree.prototype.closeDropDownMenu = function () {
         $(this._elemDropDownContainer).slideUp(100);
     };
+
     // Selection Tree Open/Close
     ComboTree.prototype.toggleSelectionTree = function (item, direction) {
         var subMenu = $(item).children('ul')[0];
@@ -305,22 +307,24 @@
 
 
     // SELECTION FUNCTIONS
-	ComboTree.prototype.selectMultipleItem=function(ctItem){
+	ComboTree.prototype.selectMultipleItem = function(ctItem){
 		this._selectedItem = {
             id: $(ctItem).attr("data-id"),
             title: $(ctItem).text()
         };
 
-        var index = this.isItemInArray(this._selectedItem, this._selectedItems);
-        if (index){
-            this._selectedItems.splice(parseInt(index), 1);
-            $(ctItem).find("input").prop('checked', false);
+        let check = this.isItemInArray(this._selectedItem, this.options.source);
+        if (check) {
+            var index = this.isItemInArray(this._selectedItem, this._selectedItems);
+            if (index) {
+                this._selectedItems.splice(parseInt(index), 1);
+                $(ctItem).find("input").prop('checked', false);
+            } else {
+                this._selectedItems.push(this._selectedItem);
+                $(ctItem).find("input").prop('checked', true);
+            }
         }
-        else {
-            this._selectedItems.push(this._selectedItem);
-            $(ctItem).find("input").prop('checked', true);
-        }
-	}
+	};
 	
     ComboTree.prototype.singleItemClick = function (ctItem) {
         this._selectedItem = {
@@ -331,6 +335,7 @@
         this.refreshInputVal();
         this.closeDropDownMenu();
     };
+
     ComboTree.prototype.multiItemClick = function (ctItem) {
         this.selectMultipleItem(ctItem);
 		if(this.options.cascadeSelect){
@@ -349,12 +354,20 @@
     };
 	
 
+    // recursive search for item in arr
     ComboTree.prototype.isItemInArray = function (item, arr) {
-        for (var i=0; i<arr.length; i++)
+        for (var i=0; i<arr.length; i++) {
             if (item.id == arr[i].id && item.title == arr[i].title)
                 return i + "";
+
+            if (arr[i].hasOwnProperty("subs")) {
+                let found = this.isItemInArray(item, arr[i].subs);
+                if (found)
+                    return found;
+            }
+        }
         return false;
-    }
+    };
 
     ComboTree.prototype.refreshInputVal = function () {
         var tmpTitle = "";
@@ -372,8 +385,8 @@
 
         this._elemInput.val(tmpTitle);
         this._elemInput.trigger('change');
-        this._elemInput.focus();
-    }
+        //this._elemInput.focus();
+    };
 
     ComboTree.prototype.dropDownMenuHover = function (itemSpan, withScroll) {
         this._elemItems.find('span.comboTreeItemHover').removeClass('comboTreeItemHover');
@@ -437,11 +450,11 @@
     }
 
     ComboTree.prototype.processSelected = function () {
-        var elements = this._elemItemsTitle;
-        var selectedItem = this._selectedItem;
-        var selectedItems = this._selectedItems;
+        let elements = this._elemItemsTitle;
+        let selectedItem = this._selectedItem;
+        let selectedItems = this._selectedItems;
         this.options.selected.forEach(function(element) {
-            var selected = $(elements).filter(function(){
+            let selected = $(elements).filter(function(){
                 return $(this).data('id') == element;
             });
 
@@ -464,6 +477,22 @@
 
 
     // METHODS
+
+
+    ComboTree.prototype.findItembyId = function(itemId, source) {
+        if (itemId && source) {
+            for (let i=0; i<source.length; i++) {
+                if (source[i].id == itemId)
+                    return {id: source[i].id, title: source[i].title};
+                if (source[i].hasOwnProperty("subs")) {
+                    let found = this.findItembyId(itemId, source[i].subs);
+                    if (found)
+                        return found;
+                }
+            }
+        }
+        return null;
+    }
 
     // Returns selected id array or null
     ComboTree.prototype.getSelectedIds = function () {
@@ -501,6 +530,38 @@
         this.destroy();
         this.options.source = source;
         this.constructorFunc(this.elemInput, this.options);
+    };
+
+    ComboTree.prototype.clearSelection = function() {
+        for (i=0; i<this._selectedItems.length; i++) {
+            let itemElem = $("#" + this.comboTreeId + 'Li' + this._selectedItems[i].id);
+            $(itemElem).find("input").prop('checked', false);
+        }
+        this._selectedItems = [];
+        this.refreshInputVal();
+    };
+
+    ComboTree.prototype.setSelection = function (selectionIdList) {
+        if (selectionIdList && selectionIdList.length && selectionIdList.length > 0) {
+            for (let i = 0; i < selectionIdList.length; i++) {
+                let selectedItem = this.findItembyId(selectionIdList[i], this.options.source);
+
+                if (selectedItem) {
+                    let check = this.isItemInArray(selectedItem, this.options.source);
+                    if (check) {
+                        var index = this.isItemInArray(selectedItem, this._selectedItems);
+                        if (!index) {
+                            let selectedItemElem = $("#" + this.comboTreeId + 'Li' + selectionIdList[i]);
+
+                            this._selectedItems.push(selectedItem);
+                            $(selectedItemElem).find("input").prop('checked', true);
+                        }
+                    }
+                }
+            }
+        }
+
+        this.refreshInputVal();
     };
 
 
