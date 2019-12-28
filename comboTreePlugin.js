@@ -274,6 +274,7 @@
                 $(_this._elemInput).focus();
         });
     };
+
     ComboTree.prototype.closeDropDownMenu = function () {
         $(this._elemDropDownContainer).slideUp(100);
     };
@@ -385,7 +386,9 @@
 
         this._elemInput.val(tmpTitle);
         this._elemInput.trigger('change');
-        //this._elemInput.focus();
+
+        if (this.changeHandler)
+            this.changeHandler();
     };
 
     ComboTree.prototype.dropDownMenuHover = function (itemSpan, withScroll) {
@@ -473,7 +476,7 @@
     	this._selectedItem = selectedItem;
 
         this.refreshInputVal();
-    }
+    };
 
 
     // METHODS
@@ -565,6 +568,16 @@
     };
 
 
+    // EVENTS
+
+    ComboTree.prototype.onChange = function(callBack) {
+        if (callBack && typeof callBack === "function")
+            this.changeHandler = callBack;
+    };
+
+
+
+    // -----
 
     $.fn[comboTreePlugin] = function (options) {
         var ctArr = [];

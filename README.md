@@ -35,6 +35,8 @@ ComboTree is a jQuery Plugin which is a combobox item within tree structured dat
 
 - **findItembyId(itemId)**: Found and return item in format {id, title} (no *subs*) from *Source* by item id. *(i.e. ct1.findItembyId(12); > {id: 12, title: "Owl"} *
 
+## Events
+- **onChange(callBackFunction)**: Triggers after selection changes.
 
 
 ## Usage
