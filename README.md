@@ -1,4 +1,4 @@
-# ComboTree jQuery Plugin v 1.1.2
+# ComboTree jQuery Plugin v 1.2.0
 
 ComboTree is a jQuery Plugin which is a combobox item within tree structured data list and multiple/single selection options and more. It has been developed to manage large amount of choices in a combobox and multi selection feature. 
  
