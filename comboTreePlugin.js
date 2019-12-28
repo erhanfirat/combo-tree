@@ -16,6 +16,7 @@
             isMultiple: false, 
             cascadeSelect: false,
             selected: [],
+            collapse: false
         };
 
     // LIFE CYCLE
@@ -111,8 +112,8 @@
         return '<input id="' + this.comboTreeId + 'MultiFilter" type="text" class="multiplesFilter" placeholder="Type to filter"/>';
     }
 
-    ComboTree.prototype.createSourceSubItemsHTML = function (subItems) {
-        var subItemsHtml = '<UL id="' + this.comboTreeId + 'ComboTreeSourceUl">';
+    ComboTree.prototype.createSourceSubItemsHTML = function (subItems, parentId) {
+        var subItemsHtml = '<UL id="' + this.comboTreeId + 'ComboTreeSourceUl' + (parentId ? parentId : 'main' ) + '" style="' + ((this.options.collapse && parentId) ? 'display:none;' : '')  + '">';
         for (var i=0; i<subItems.length; i++){
             subItemsHtml += this.createSourceItemHTML(subItems[i]);
         }
@@ -127,7 +128,7 @@
         itemHtml = '<LI id="' + this.comboTreeId + 'Li' + sourceItem.id + '" class="ComboTreeItem' + (isThereSubs?'Parent':'Chlid') + '"> ';
         
         if (isThereSubs)
-            itemHtml += '<span class="comboTreeParentPlus">&minus;</span>';
+            itemHtml += '<span class="comboTreeParentPlus">' + (this.options.collapse ? '+' : '&minus;') + '</span>';
 
         if (this.options.isMultiple)
             itemHtml += '<span data-id="' + sourceItem.id + '" class="comboTreeItemTitle"><input type="checkbox">' + sourceItem.title + '</span>';
@@ -135,7 +136,7 @@
             itemHtml += '<span data-id="' + sourceItem.id + '" class="comboTreeItemTitle">' + sourceItem.title + '</span>';
 
         if (isThereSubs)
-            itemHtml += this.createSourceSubItemsHTML(sourceItem.subs);
+            itemHtml += this.createSourceSubItemsHTML(sourceItem.subs, sourceItem.id);
 
         itemHtml += '</LI>';
         return itemHtml;

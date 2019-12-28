@@ -161,13 +161,15 @@ jQuery(document).ready(function($) {
 		comboTree1 = $('#justAnInputBox').comboTree({
 			source : SampleJSONData,
 			isMultiple: true,
-			cascadeSelect: false
+			cascadeSelect: false,
+			collapse: true
 		});
 		
 		comboTree3 = $('#justAnInputBox1').comboTree({
 			source : SampleJSONData,
 			isMultiple: true,
-			cascadeSelect: true
+			cascadeSelect: true,
+			collapse: false
 		});
 
 		comboTree3.setSource(SampleJSONData2);
