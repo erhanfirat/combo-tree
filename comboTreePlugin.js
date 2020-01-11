@@ -3,7 +3,7 @@
  * Author:  Erhan FIRAT
  * Mail:    erhanfirat@gmail.com
  * Licensed under the MIT license
- * Version: 1.2.0
+ * Version: 1.2.1
  */
 
 
