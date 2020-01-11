@@ -1,7 +1,11 @@
-# ComboTree jQuery Plugin v 1.2.0
 
+## 1.2.1 Updates
+- Filter is fixed & updated.
+- icontains.js dependency is deprecated. 
+
+# ComboTree jQuery Plugin v 1.2.1
 ComboTree is a jQuery Plugin which is a combobox item within tree structured data list and multiple/single selection options and more. It has been developed to manage large amount of choices in a combobox and multi selection feature. 
- 
+
 
 ## Features:
 - Tree structured data list in combobox dropdown menu
@@ -11,10 +15,10 @@ ComboTree is a jQuery Plugin which is a combobox item within tree structured dat
 - Filtering (for multiple mode)
 - Consumes JSON source
 - Key controls are available for both selection and filter inputs.
+
  
 ## Dependencies:
 - jQuery
-- icontains.js (Using for filtering. It can be found in package)
  
 ## Configurations:
 - **isMultiple**: *{true/false} | default: false* | decide if it is multiple selection behaviour or single

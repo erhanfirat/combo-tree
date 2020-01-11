@@ -442,10 +442,14 @@
         if (searchText != ""){
             this._elemItemsTitle.hide();
             this._elemItemsTitle.siblings("span.comboTreeParentPlus").hide();
-            list = this._elemItems.find("span\\:icontains('" + searchText + "')").each(function (i, elem) {
-                $(this).show();
-                $(this).siblings("span.comboTreeParentPlus").show();
-            });    
+            list = this._elemItems
+                .filter((index, item) => {
+                    return item.innerHTML.toLowerCase().indexOf(searchText.toLowerCase()) != -1;
+                })
+                .each(function (i, elem) {
+                    $(this.children).show()
+                    $(this).siblings("span.comboTreeParentPlus").show();
+                });
         }
         else{
             this._elemItemsTitle.show();
