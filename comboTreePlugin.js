@@ -562,6 +562,7 @@
                             let selectedItemElem = $("#" + this.comboTreeId + 'Li' + selectionIdList[i]);
 
                             this._selectedItems.push(selectedItem);
+                            this._selectedItem = selectedItem;
                             $(selectedItemElem).find("input").prop('checked', true);
                         }
                     }
