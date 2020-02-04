@@ -124,6 +124,8 @@
     ComboTree.prototype.createSourceItemHTML = function (sourceItem) {
         var itemHtml = "",
             isThereSubs = sourceItem.hasOwnProperty("subs");
+        let isSelectable = (sourceItem.isSelectable === undefined ? true : sourceItem.isSelectable);
+						
         
         itemHtml = '<LI id="' + this.comboTreeId + 'Li' + sourceItem.id + '" class="ComboTreeItem' + (isThereSubs?'Parent':'Chlid') + '"> ';
         
@@ -131,9 +133,9 @@
             itemHtml += '<span class="comboTreeParentPlus">' + (this.options.collapse ? '+' : '&minus;') + '</span>';
 
         if (this.options.isMultiple)
-            itemHtml += '<span data-id="' + sourceItem.id + '" class="comboTreeItemTitle"><input type="checkbox">' + sourceItem.title + '</span>';
+            itemHtml += '<span data-id="' + sourceItem.id + '" data-selectable="' + isSelectable + '" class="comboTreeItemTitle ' + (isSelectable ? 'selectable' : 'not-selectable') + '">' + (isSelectable ? '<input type="checkbox" />' : '') + sourceItem.title + '</span>';
         else
-            itemHtml += '<span data-id="' + sourceItem.id + '" class="comboTreeItemTitle">' + sourceItem.title + '</span>';
+            itemHtml += '<span data-id="' + sourceItem.id + '" data-selectable="' + isSelectable + '" class="comboTreeItemTitle ' + (isSelectable ? 'selectable' : 'not-selectable') + '">' + sourceItem.title + '</span>';
 
         if (isThereSubs)
             itemHtml += this.createSourceSubItemsHTML(sourceItem.subs, sourceItem.id);
@@ -310,49 +312,54 @@
 
     // SELECTION FUNCTIONS
 	ComboTree.prototype.selectMultipleItem = function(ctItem){
-		this._selectedItem = {
-            id: $(ctItem).attr("data-id"),
-            title: $(ctItem).text()
-        };
-
-        let check = this.isItemInArray(this._selectedItem, this.options.source);
-        if (check) {
-            var index = this.isItemInArray(this._selectedItem, this._selectedItems);
-            if (index) {
-                this._selectedItems.splice(parseInt(index), 1);
-                $(ctItem).find("input").prop('checked', false);
-            } else {
-                this._selectedItems.push(this._selectedItem);
-                $(ctItem).find("input").prop('checked', true);
-            }
-        }
+		if ($(ctItem).data("selectable") == true) {
+			this._selectedItem = {
+					id: $(ctItem).attr("data-id"),
+					title: $(ctItem).text()
+			};
+			
+			let check = this.isItemInArray(this._selectedItem, this.options.source);
+			if (check) {
+				var index = this.isItemInArray(this._selectedItem, this._selectedItems);
+				if (index) {
+					this._selectedItems.splice(parseInt(index), 1);
+					$(ctItem).find("input").prop('checked', false);
+				} else {
+					this._selectedItems.push(this._selectedItem);
+					$(ctItem).find("input").prop('checked', true);
+				}
+			} // if check
+		} // if selectable
 	};
 	
     ComboTree.prototype.singleItemClick = function (ctItem) {
-        this._selectedItem = {
-            id: $(ctItem).attr("data-id"),
-            title: $(ctItem).text()
-        };
+				if ($(ctItem).data("selectable") == true) {
+					this._selectedItem = {
+							id: $(ctItem).attr("data-id"),
+							title: $(ctItem).text()
+					};
+				} // if selectable
 
         this.refreshInputVal();
         this.closeDropDownMenu();
     };
 
     ComboTree.prototype.multiItemClick = function (ctItem) {
-        this.selectMultipleItem(ctItem);
-		if(this.options.cascadeSelect){
-			if ($(ctItem).parent('li').hasClass('ComboTreeItemParent')){
-				var subMenu = $(ctItem).parent('li').children('ul').first().find('input[type="checkbox"]');
-				subMenu.each(function() {
-					var $input = $(this)
-					if($(ctItem).children('input[type="checkbox"]').first().prop("checked")!==$input.prop('checked')){
-					$input.prop('checked', !$(ctItem).children('input[type="checkbox"]').first().prop("checked"));
-					$input.trigger('click');
-					}
-				});
+			this.selectMultipleItem(ctItem);
+			
+			if (this.options.cascadeSelect) {
+				if ($(ctItem).parent('li').hasClass('ComboTreeItemParent')) {
+					var subMenu = $(ctItem).parent('li').children('ul').first().find('input[type="checkbox"]');
+					subMenu.each(function() {
+						var $input = $(this)
+						if ($(ctItem).children('input[type="checkbox"]').first().prop("checked")!==$input.prop('checked')) {
+							$input.prop('checked', !$(ctItem).children('input[type="checkbox"]').first().prop("checked"));
+							$input.trigger('click');
+						}
+					});
+				}
 			}
-		}
-        this.refreshInputVal();
+      this.refreshInputVal();
     };
 	
 

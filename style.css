@@ -75,8 +75,16 @@
 .comboTreeDropDownContainer li{
 	list-style-type: none;
 	padding-left: 15px;
-    cursor: pointer;
 }
+
+.comboTreeDropDownContainer li .selectable{
+	cursor: pointer;
+}
+
+.comboTreeDropDownContainer li .not-selectable{
+	cursor: not-allowed;
+}
+
 
 .comboTreeDropDownContainer li:hover{
 	background-color: var(--ct-tree-hover);}
@@ -108,6 +116,7 @@ span.comboTreeItemTitle{
     top: 4px;
     width: 4px;
     float: left;
+		cursor: pointer;
 }
 
 
