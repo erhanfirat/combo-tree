@@ -1,3 +1,11 @@
+/*!
+ * jQuery ComboTree Plugin 
+ * Author:  Erhan FIRAT
+ * Mail:    erhanfirat@gmail.com
+ * Licensed under the MIT license
+ * Version: 1.2.1
+ */
+
 
 :root {
     --ct-bg: #fff;
@@ -50,9 +58,7 @@
 }
 
 .comboTreeArrowBtnImg{
-    font-size: 10px;
-    padding: 0 12px;
-    line-height: calc((var(--ct-padding) * 2) + 20px );
+    font-size: 1.25rem;
 }
 
 .comboTreeDropDownContainer {
@@ -60,16 +66,16 @@
 	background: var(--ct-bg);
 	border: 1px solid var(--ct-border-color);
 	position: absolute;
-    width: 100%;
-    box-sizing: border-box;
-    z-index: 999;
+  width: 100%;
+  box-sizing: border-box;
+  z-index: 999;
+	max-height: 250px;
+	overflow-y: auto;
 }
 
 .comboTreeDropDownContainer ul{
 	padding: 0px;
 	margin: 0;
-	max-height: 250px;
-	overflow-y: auto;
 }
 
 .comboTreeDropDownContainer li{
