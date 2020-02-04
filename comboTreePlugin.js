@@ -50,7 +50,7 @@
         this._elemInput.wrap('<div id="'+ this.comboTreeId + 'InputWrapper" class="comboTreeInputWrapper"></div>');
         this._elemWrapper = $('#' + this.comboTreeId + 'Wrapper');
 
-        this._elemArrowBtn = $('<div id="' + this.comboTreeId + 'ArrowBtn" class="comboTreeArrowBtn" type="button"><span class="comboTreeArrowBtnImg">▼</span></div>');
+        this._elemArrowBtn = $('<div id="' + this.comboTreeId + 'ArrowBtn" class="comboTreeArrowBtn" type="button"><span class="mdi mdi-chevron-down comboTreeArrowBtnImg"></span></div>');
         this._elemInput.after(this._elemArrowBtn);
         this._elemWrapper.append('<div id="' + this.comboTreeId + 'DropDownContainer" class="comboTreeDropDownContainer"><div class="comboTreeDropDownContent"></div>');
         
@@ -128,7 +128,7 @@
         itemHtml = '<LI id="' + this.comboTreeId + 'Li' + sourceItem.id + '" class="ComboTreeItem' + (isThereSubs?'Parent':'Chlid') + '"> ';
         
         if (isThereSubs)
-            itemHtml += '<span class="comboTreeParentPlus">' + (this.options.collapse ? '+' : '&minus;') + '</span>';
+          itemHtml += '<span class="comboTreeParentPlus">' + (this.options.collapse ? '<span class="mdi mdi-chevron-right-circle-outline"></span>' : '<span class="mdi mdi-chevron-down-circle-outline"></span>') + '</span>'; // itemHtml += '<span class="comboTreeParentPlus">' + (this.options.collapse ? '+' : '&minus;') + '</span>';
 
         if (this.options.isMultiple)
             itemHtml += '<span data-id="' + sourceItem.id + '" class="comboTreeItemTitle"><input type="checkbox">' + sourceItem.title + '</span>';
@@ -285,19 +285,19 @@
         var subMenu = $(item).children('ul')[0];
         if (direction === undefined){
             if ($(subMenu).is(':visible'))
-                $(item).children('span.comboTreeParentPlus').html("+");
+                $(item).children('span.comboTreeParentPlus').html('<span class="mdi mdi-chevron-right-circle-outline"></span>'); //$(item).children('span.comboTreeParentPlus').html("+");
             else
-                $(item).children('span.comboTreeParentPlus').html("&minus;");
+                $(item).children('span.comboTreeParentPlus').html('<span class="mdi mdi-chevron-down-circle-outline"></span>'); //$(item).children('span.comboTreeParentPlus').html("&minus;");
 
             $(subMenu).slideToggle(50);
         }
         else if (direction == 1 && !$(subMenu).is(':visible')){
-                $(item).children('span.comboTreeParentPlus').html("&minus;");
+                $(item).children('span.comboTreeParentPlus').html('<span class="mdi mdi-chevron-down-circle-outline"></span>'); //$(item).children('span.comboTreeParentPlus').html("&minus;");
                 $(subMenu).slideDown(50);
         }
         else if (direction == -1){
             if ($(subMenu).is(':visible')){
-                $(item).children('span.comboTreeParentPlus').html("+");
+                $(item).children('span.comboTreeParentPlus').html('<span class="mdi mdi-chevron-right-circle-outline"></span>'); //$(item).children('span.comboTreeParentPlus').html("+");
                 $(subMenu).slideUp(50);
             }
             else {
@@ -601,7 +601,3 @@
     }
 
 })( jQuery, window, document );
-
-
-
-
