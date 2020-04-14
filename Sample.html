@@ -5,8 +5,9 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<title>ComboTree jQuery Plugin Demos by Erhan FIRAT</title>
-  <link href="https://www.jqueryscript.net/css/jquerysctipttop.css" rel="stylesheet" type="text/css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/flatly/bootstrap.min.css">
+	<link href="https://www.jqueryscript.net/css/jquerysctipttop.css" rel="stylesheet" type="text/css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/flatly/bootstrap.min.css">
+	<link rel="stylesheet" href="https://cdn.materialdesignicons.com/5.0.45/css/materialdesignicons.min.css">
 <link rel="stylesheet" href="style.css">
 <style>
 body {}
@@ -27,18 +28,18 @@ body {}
 	<div class="row">
 		<div class="col-lg-6">
 			<h3>Multi Selection</h3>
-			<input type="text" id="justAnInputBox" placeholder="Select"/>
+			<input type="text" id="justAnInputBox" placeholder="Select" autocomplete="off"/>
 		</div>
 		
 		<div class="col-lg-6">
 			<h3>Multi Selection With Cascade Option Select</h3>
-			<input type="text" id="justAnInputBox1" placeholder="Select"/>
+			<input type="text" id="justAnInputBox1" placeholder="Select" autocomplete="off"/>
 		</div>
 
 
 		<div class="col-lg-6">
 			<h3>Single Selection</h3>
-			<input type="text" id="justAnotherInputBox" placeholder="Type to filter"/>
+			<input type="text" id="justAnotherInputBox" placeholder="Type to filter" autocomplete="off"/>
 		</div>
 
 	</div>
@@ -58,11 +59,12 @@ var SampleJSONData = [
     }, {
         id: 1,
         title: 'Birds',
-				isSelectable: false,
+		isSelectable: false,
         subs: [
             {
                 id: 10,
-                title: 'Pigeon'
+                title: 'Pigeon',
+				isSelectable: false
             }, {
                 id: 11,
                 title: 'Parrot'
@@ -83,7 +85,6 @@ var SampleJSONData = [
     }, {
         id: 5,
         title: 'Cats',
-				isSelectable: false,
         subs: [
             {
                 id: 50,
@@ -91,7 +92,6 @@ var SampleJSONData = [
             }, {
                 id: 51,
                 title: 'Bigs',
-								isSelectable: false,
                 subs: [
                     {
                         id: 510,
@@ -163,7 +163,9 @@ jQuery(document).ready(function($) {
 			source : SampleJSONData,
 			isMultiple: true,
 			cascadeSelect: false,
-			collapse: true
+			collapse: true,
+			selectableLastNode: true
+
 		});
 		
 		comboTree3 = $('#justAnInputBox1').comboTree({
