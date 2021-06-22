@@ -17,16 +17,20 @@
       cascadeSelect: false,
       selected: [],
       collapse: false,
-      selectableLastNode: false
+      selectableLastNode: false,
+      selectWithParents: false
     };
 
   // LIFE CYCLE
   function ComboTree( element, options ) {
-
+    if (options.cascadeSelect && options.selectWithParents) 
+      throw Error("cascadeSelect and selectWithParents can't be true at the same time")
+    
     this.options = $.extend( {}, defaults, options) ;
     this._defaults = defaults;
     this._name = comboTreePlugin;
-
+    if (this.options.selectWithParents)
+      this.options.isMultiple = true;
     this.constructorFunc(element, options);
   }
 
@@ -367,6 +371,14 @@
             $input.trigger('click');
           }
         });
+      }
+    }
+
+    if (this.options.selectWithParents) {
+      let hasParent = !$(ctItem).parent().parent().parent().hasClass('comboTreeDropDownContainer');
+      if (hasParent) {
+        const input = $(ctItem).parents('ul').first().prev().find('input[type="checkbox"]');
+        $(input).trigger('click');
       }
     }
     this.refreshInputVal();
