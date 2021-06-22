@@ -42,6 +42,11 @@ body {}
 			<input type="text" id="justAnotherInputBox" placeholder="Type to filter" autocomplete="off"/>
 		</div>
 
+        <div class="col-lg-6">
+			<h3>Parent Selection</h3>
+			<input type="text" id="justAnotherAnotherInputBox" placeholder="Type to filter" autocomplete="off"/>
+		</div>
+
 	</div>
 	</div>
 
@@ -181,6 +186,11 @@ jQuery(document).ready(function($) {
 		comboTree2 = $('#justAnotherInputBox').comboTree({
 			source : SampleJSONData,
 			isMultiple: false
+		});
+
+        comboTree4 = $('#justAnotherAnotherInputBox').comboTree({
+			source : SampleJSONData2,
+            selectWithParents: true
 		});
 });
 
