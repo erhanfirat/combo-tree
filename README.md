@@ -58,9 +58,14 @@ There should be an input element to apply and a JSON Data source.
 	
 
 
-## Source
+## Source Dataset
 
-Three parameter are needed: id, title and subs.
+Three parameter are needed: id, title and subs (array).
+
+Can contain the following options:
+- **isSelectable**: *{true/false} | default: true* | allows or disallows item to be selected
+- **collapse**: *{true/false} | default: false* | makes sub lists collapsed at start
+
 
 	var SampleJSONData = [
         {
