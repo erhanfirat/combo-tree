@@ -124,7 +124,8 @@
 
   ComboTree.prototype.createSourceItemHTML = function (sourceItem) {
     var itemHtml = "",
-      isThereSubs = sourceItem.hasOwnProperty("subs");
+      isThereSubs = sourceItem.hasOwnProperty("subs"),
+        collapse = sourceItem.hasOwnProperty("collapse") ? sourceItem.hasOwnProperty("collapse") : false;
     let isSelectable = (sourceItem.isSelectable === undefined ? true : sourceItem.isSelectable),
       selectableClass = (isSelectable || isThereSubs) ? 'selectable' : 'not-selectable',
       selectableLastNode = (this.options.selectableLastNode!==undefined && isThereSubs) ? this.options.selectableLastNode : false;
@@ -132,7 +133,7 @@
     itemHtml += '<LI id="' + this.comboTreeId + 'Li' + sourceItem.id + '" class="ComboTreeItem' + (isThereSubs?'Parent':'Chlid') + '"> ';
 
     if (isThereSubs)
-      itemHtml += '<span class="comboTreeParentPlus">' + (this.options.collapse ? '<span class="mdi mdi-chevron-right-circle-outline"></span>' : '<span class="mdi mdi-chevron-down-circle-outline"></span>') + '</span>'; // itemHtml += '<span class="comboTreeParentPlus">' + (this.options.collapse ? '+' : '&minus;') + '</span>';
+      itemHtml += '<span class="comboTreeParentPlus">' + (this.options.collapse || collapse ? '<span class="mdi mdi-chevron-right-circle-outline"></span>' : '<span class="mdi mdi-chevron-down-circle-outline"></span>') + '</span>'; // itemHtml += '<span class="comboTreeParentPlus">' + (this.options.collapse ? '+' : '&minus;') + '</span>';
 
     if (this.options.isMultiple)
       itemHtml += '<span data-id="' + sourceItem.id + '" data-selectable="' + isSelectable + '" class="comboTreeItemTitle ' + selectableClass + '">' + (!selectableLastNode && isSelectable ? '<input type="checkbox" />' : '') + sourceItem.title + '</span>';
