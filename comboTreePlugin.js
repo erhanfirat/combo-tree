@@ -113,8 +113,8 @@
     return '<input id="' + this.comboTreeId + 'MultiFilter" type="text" class="multiplesFilter" placeholder="Type to filter"/>';
   }
 
-  ComboTree.prototype.createSourceSubItemsHTML = function (subItems, parentId) {
-    var subItemsHtml = '<UL id="' + this.comboTreeId + 'ComboTreeSourceUl' + (parentId ? parentId : 'main' ) + '" style="' + ((this.options.collapse && parentId) ? 'display:none;' : '')  + '">';
+  ComboTree.prototype.createSourceSubItemsHTML = function (subItems, parentId, collapse=false) {
+    var subItemsHtml = '<UL id="' + this.comboTreeId + 'ComboTreeSourceUl' + (parentId ? parentId : 'main' ) + '" style="' + (((this.options.collapse||collapse) && parentId) ? 'display:none;' : '')  + '">';
     for (var i=0; i<subItems.length; i++){
       subItemsHtml += this.createSourceItemHTML(subItems[i]);
     }
@@ -141,7 +141,7 @@
       itemHtml += '<span data-id="' + sourceItem.id + '" data-selectable="' + isSelectable + '" class="comboTreeItemTitle ' + selectableClass + '">' + sourceItem.title + '</span>';
 
     if (isThereSubs)
-      itemHtml += this.createSourceSubItemsHTML(sourceItem.subs, sourceItem.id);
+      itemHtml += this.createSourceSubItemsHTML(sourceItem.subs, sourceItem.id, collapse);
 
     itemHtml += '</LI>';
     return itemHtml;
