@@ -113,8 +113,8 @@
     return '<input id="' + this.comboTreeId + 'MultiFilter" type="text" class="multiplesFilter" placeholder="Type to filter"/>';
   }
 
-  ComboTree.prototype.createSourceSubItemsHTML = function (subItems, parentId) {
-    var subItemsHtml = '<UL id="' + this.comboTreeId + 'ComboTreeSourceUl' + (parentId ? parentId : 'main' ) + '" style="' + ((this.options.collapse && parentId) ? 'display:none;' : '')  + '">';
+  ComboTree.prototype.createSourceSubItemsHTML = function (subItems, parentId, collapse=false) {
+    var subItemsHtml = '<UL id="' + this.comboTreeId + 'ComboTreeSourceUl' + (parentId ? parentId : 'main' ) + '" style="' + (((this.options.collapse||collapse) && parentId) ? 'display:none;' : '')  + '">';
     for (var i=0; i<subItems.length; i++){
       subItemsHtml += this.createSourceItemHTML(subItems[i]);
     }
@@ -124,7 +124,8 @@
 
   ComboTree.prototype.createSourceItemHTML = function (sourceItem) {
     var itemHtml = "",
-      isThereSubs = sourceItem.hasOwnProperty("subs");
+      isThereSubs = sourceItem.hasOwnProperty("subs"),
+        collapse = sourceItem.hasOwnProperty("collapse") ? sourceItem.hasOwnProperty("collapse") : false;
     let isSelectable = (sourceItem.isSelectable === undefined ? true : sourceItem.isSelectable),
       selectableClass = (isSelectable || isThereSubs) ? 'selectable' : 'not-selectable',
       selectableLastNode = (this.options.selectableLastNode!==undefined && isThereSubs) ? this.options.selectableLastNode : false;
@@ -132,7 +133,7 @@
     itemHtml += '<LI id="' + this.comboTreeId + 'Li' + sourceItem.id + '" class="ComboTreeItem' + (isThereSubs?'Parent':'Chlid') + '"> ';
 
     if (isThereSubs)
-      itemHtml += '<span class="comboTreeParentPlus">' + (this.options.collapse ? '<span class="mdi mdi-chevron-right-circle-outline"></span>' : '<span class="mdi mdi-chevron-down-circle-outline"></span>') + '</span>'; // itemHtml += '<span class="comboTreeParentPlus">' + (this.options.collapse ? '+' : '&minus;') + '</span>';
+      itemHtml += '<span class="comboTreeParentPlus">' + (this.options.collapse || collapse ? '<span class="mdi mdi-chevron-right-circle-outline"></span>' : '<span class="mdi mdi-chevron-down-circle-outline"></span>') + '</span>'; // itemHtml += '<span class="comboTreeParentPlus">' + (this.options.collapse ? '+' : '&minus;') + '</span>';
 
     if (this.options.isMultiple)
       itemHtml += '<span data-id="' + sourceItem.id + '" data-selectable="' + isSelectable + '" class="comboTreeItemTitle ' + selectableClass + '">' + (!selectableLastNode && isSelectable ? '<input type="checkbox" />' : '') + sourceItem.title + '</span>';
@@ -140,7 +141,7 @@
       itemHtml += '<span data-id="' + sourceItem.id + '" data-selectable="' + isSelectable + '" class="comboTreeItemTitle ' + selectableClass + '">' + sourceItem.title + '</span>';
 
     if (isThereSubs)
-      itemHtml += this.createSourceSubItemsHTML(sourceItem.subs, sourceItem.id);
+      itemHtml += this.createSourceSubItemsHTML(sourceItem.subs, sourceItem.id, collapse);
 
     itemHtml += '</LI>';
     return itemHtml;
