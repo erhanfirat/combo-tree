@@ -90,7 +90,7 @@
     this.unbind();
     this._elemWrapper.before(this._elemInput);
     this._elemWrapper.remove();
-    //this._elemInput.removeData('plugin_' + comboTreePlugin);
+    this._elemInput.removeData('plugin_' + comboTreePlugin);
   }
 
 
