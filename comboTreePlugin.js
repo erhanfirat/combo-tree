@@ -558,7 +558,9 @@
 
   ComboTree.prototype.clearSelection = function() {
     for (i=0; i<this._selectedItems.length; i++) {
-      let itemElem = $("#" + this.comboTreeId + 'Li' + this._selectedItems[i].id);
+      let itemElemSelector = "#" + this.comboTreeId + 'Li' + this._selectedItems[i].id;
+      itemElemSelector = itemElemSelector.replaceAll('.', '\\.')
+      let itemElem = $(itemElemSelector);
       $(itemElem).find("input").prop('checked', false);
     }
     this._selectedItems = [];
@@ -575,7 +577,9 @@
           if (check) {
             var index = this.isItemInArray(selectedItem, this._selectedItems);
             if (!index) {
-              let selectedItemElem = $("#" + this.comboTreeId + 'Li' + selectionIdList[i]);
+              let selectedItemElemSelector = "#" + this.comboTreeId + 'Li' + selectionIdList[i];
+              selectedItemElemSelector = selectedItemElemSelector.replaceAll('.', '\\.');
+              let selectedItemElem = $(selectedItemElemSelector);
 
               this._selectedItems.push(selectedItem);
               this._selectedItem = selectedItem;
