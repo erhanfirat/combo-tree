@@ -33,7 +33,7 @@ ComboTree is a jQuery Plugin which is a combobox item within tree structured dat
 - **getSelectedNames()**: Returns selected item(s) name list as array or null. *(i.e. ["Piegon", "Cat", "Horse"], ["Lion"], null)*
 - **setSource()**: You can initialize ComboTree then set source after your JSON data is retrieved.
 - **clearSelection()**: Clear selected items.
-- **selectAll()**: selected all items.
+- **selectAll()**: select all items.
 - **setSelection(selectionIdList)**: Set selected values of combotree by id array or single id parameter. If you want to clear previous selections please use *clearSelection()* before *setSelection()*.  *(i.e. ct1.setSelection([12, 5, 7]) | ct1.setSelection(5)*
 
 ## Events
