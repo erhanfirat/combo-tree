@@ -96,13 +96,15 @@
 	background-color: var(--ct-tree-hover);}
 .comboTreeDropDownContainer li:hover ul{
 	background-color: var(--ct-bg)}
-.comboTreeDropDownContainer li span.comboTreeItemTitle.comboTreeItemHover{
+.comboTreeDropDownContainer li span.comboTreeItemTitle.comboTreeItemHover,
+.comboTreeDropDownContainer label.comboTreeItemHover
+{
 	background-color: var(--ct-selection);
 	color: var(--ct-bg);
     border-radius: 2px;
 }
 
-span.comboTreeItemTitle{
+span.comboTreeItemTitle, .comboTreeDropDownContainer .selectAll{
 	display: block;
     padding: 3px var(--ct-padding);
 }
@@ -111,7 +113,8 @@ span.comboTreeItemTitle{
 	width: 100%;
     display: block;
 }
-.comboTreeDropDownContainer .comboTreeItemTitle input {
+.comboTreeDropDownContainer .comboTreeItemTitle input,
+.comboTreeDropDownContainer .selectAll input {
 	position: relative;
     top: 2px;
 	margin: 0px 4px 0px 0px;

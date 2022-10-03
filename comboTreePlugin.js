@@ -17,7 +17,8 @@
       cascadeSelect: false,
       selected: [],
       collapse: false,
-      selectableLastNode: false
+      selectableLastNode: false,
+      withSelectAll: false
     };
 
   // LIFE CYCLE
@@ -60,6 +61,7 @@
 
     this._elemDropDownContainer.html(this.createSourceHTML());
     this._elemFilterInput = this.options.isMultiple ? $('#' + this.comboTreeId + 'MultiFilter') : null;
+    this._elemSelectAllInput = this.options.isMultiple && this.options.withSelectAll ? $('#' + this.comboTreeId + 'SelectAll') : null;
     this._elemSourceUl = $('#' + this.comboTreeId + 'ComboTreeSourceUl');
 
     this._elemItems = this._elemDropDownContainer.find('li');
@@ -104,13 +106,19 @@
   ComboTree.prototype.createSourceHTML = function () {
     var sourceHTML = '';
     if (this.options.isMultiple)
-      sourceHTML = this.createFilterHTMLForMultiSelect();
+      sourceHTML += this.createFilterHTMLForMultiSelect();
+    if (this.options.isMultiple && this.options.withSelectAll)
+      sourceHTML += this.createSelectAllHTMLForMultiSelect();
     sourceHTML += this.createSourceSubItemsHTML(this.options.source);
     return sourceHTML;
   };
 
   ComboTree.prototype.createFilterHTMLForMultiSelect = function (){
     return '<input id="' + this.comboTreeId + 'MultiFilter" type="text" class="multiplesFilter" placeholder="Type to filter"/>';
+  }
+
+  ComboTree.prototype.createSelectAllHTMLForMultiSelect = function () {
+    return '<label class="selectAll"><input type="checkbox" id="' + this.comboTreeId + 'SelectAll' + '">[Select All]</label>';
   }
 
   ComboTree.prototype.createSourceSubItemsHTML = function (subItems, parentId, collapse=false) {
@@ -181,6 +189,10 @@
         _this.singleItemClick(this);
     });
     this._elemItemsTitle.on("mousemove", function (e) {
+      e.stopPropagation();
+      _this.dropDownMenuHover(this);
+    });
+    this._elemSelectAllInput && this._elemSelectAllInput.parent("label").on("mousemove", function (e) {
       e.stopPropagation();
       _this.dropDownMenuHover(this);
     });
@@ -263,6 +275,16 @@
     $(document).on('mouseup.' + _this.comboTreeId, function (e){
       if (!_this._elemWrapper.is(e.target) && _this._elemWrapper.has(e.target).length === 0 && _this._elemDropDownContainer.is(':visible'))
         _this.closeDropDownMenu();
+    });
+
+    this._elemSelectAllInput && this._elemSelectAllInput.on('click', function (e) {
+      e.stopPropagation();
+      let checked = $(e.target).prop('checked');
+      if (checked) {
+        _this.selectAll();
+      } else {
+        _this.clearSelection();
+      }
     });
   };
 
@@ -411,7 +433,7 @@
   };
 
   ComboTree.prototype.dropDownMenuHover = function (itemSpan, withScroll) {
-    this._elemItems.find('span.comboTreeItemHover').removeClass('comboTreeItemHover');
+    this._elemWrapper.find('.comboTreeItemHover').removeClass('comboTreeItemHover');
     $(itemSpan).addClass('comboTreeItemHover');
     this._elemHoveredItem = $(itemSpan);
     if (withScroll)
@@ -562,6 +584,9 @@
       $(itemElem).find("input").prop('checked', false);
     }
     this._selectedItems = [];
+    if(this._elemSelectAllInput){
+      this._elemSelectAllInput.prop("checked", false);
+    }
     this.refreshInputVal();
   };
 
@@ -594,6 +619,31 @@
     this.refreshInputVal();
   };
 
+  ComboTree.prototype.selectAll = function () {
+    // clear
+    for (let i = 0; i < this._selectedItems.length; i++) {
+      let itemElem = $('#' + this.comboTreeId + 'Li' + this._selectedItems[i].id);
+      $(itemElem).find('input').prop('checked', false);
+    }
+    this._selectedItems = [];
+    // select all
+    let selected = this._selectedItems;
+    $('#' + this.comboTreeId + 'ComboTreeSourceUlmain')
+        .find("input[type='checkbox']")
+        .each(function (idx, elem) {
+          let $itemElem = $(elem).parent('span').first();
+          let item = {
+            id: $itemElem.data('id'),
+            title: $itemElem.text(),
+          };
+          $(elem).prop('checked', true);
+          selected.push(item);
+        });
+    if(this._elemSelectAllInput){
+      this._elemSelectAllInput.prop("checked", true);
+    }
+    this.refreshInputVal();
+  };
 
   // EVENTS
 
