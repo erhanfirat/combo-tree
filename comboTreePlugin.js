@@ -18,7 +18,8 @@
       selected: [],
       collapse: false,
       selectableLastNode: false,
-      withSelectAll: false
+      withSelectAll: false,
+      isolatedSelectable: false
     };
 
   // LIFE CYCLE
@@ -134,9 +135,12 @@
     var itemHtml = "",
       isThereSubs = sourceItem.hasOwnProperty("subs"),
         collapse = sourceItem.hasOwnProperty("collapse") ? sourceItem.hasOwnProperty("collapse") : false;
-    let isSelectable = (sourceItem.isSelectable === undefined ? true : sourceItem.isSelectable),
-      selectableClass = (isSelectable || isThereSubs) ? 'selectable' : 'not-selectable',
-      selectableLastNode = (this.options.selectableLastNode!==undefined && isThereSubs) ? this.options.selectableLastNode : false;
+    let isSelectable = (sourceItem.isSelectable === undefined ? true : sourceItem.isSelectable);
+    let selectableClass = (isSelectable || isThereSubs) ? 'selectable' : 'not-selectable';
+    if (this.options.isolatedSelectable) {
+      selectableClass = isSelectable ? 'selectable' : 'not-selectable';
+    }
+    let selectableLastNode = (this.options.selectableLastNode !== undefined && isThereSubs) ? this.options.selectableLastNode : false;
 
     itemHtml += '<LI id="' + this.comboTreeId + 'Li' + sourceItem.id + '" class="ComboTreeItem' + (isThereSubs?'Parent':'Chlid') + '"> ';
 
