@@ -584,6 +584,7 @@
       $(itemElem).find("input").prop('checked', false);
     }
     this._selectedItems = [];
+    this._selectedItem = {};
     if(this._elemSelectAllInput){
       this._elemSelectAllInput.prop("checked", false);
     }
