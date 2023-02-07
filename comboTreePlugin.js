@@ -19,7 +19,8 @@
       collapse: false,
       selectableLastNode: false,
       withSelectAll: false,
-      isolatedSelectable: false
+      isolatedSelectable: false,
+      placeholder: "Type to filter"
     };
 
   // LIFE CYCLE
@@ -115,7 +116,7 @@
   };
 
   ComboTree.prototype.createFilterHTMLForMultiSelect = function (){
-    return '<input id="' + this.comboTreeId + 'MultiFilter" type="text" class="multiplesFilter" placeholder="Type to filter"/>';
+    return '<input id="' + this.comboTreeId + 'MultiFilter" type="text" class="multiplesFilter" placeholder="' + this.options.placeholder + '"/>';
   }
 
   ComboTree.prototype.createSelectAllHTMLForMultiSelect = function () {
