@@ -19,7 +19,8 @@
       collapse: false,
       selectableLastNode: false,
       withSelectAll: false,
-      isolatedSelectable: false
+      isolatedSelectable: false,
+      includeParentNames: false
     };
 
   // LIFE CYCLE
@@ -352,7 +353,8 @@
     if ($(ctItem).data("selectable") == true) {
       this._selectedItem = {
         id: $(ctItem).attr("data-id"),
-        title: $(ctItem).text()
+        title: $(ctItem).text(),
+        parents: $(ctItem).parents('li.ComboTreeItemParent').children("span.comboTreeItemTitle").map(function() {return $(this).text();}).get().reverse().join(' - ')
       };
 
       let check = this.isItemInArray(this._selectedItem, this.options.source);
@@ -563,9 +565,12 @@
   ComboTree.prototype.getSelectedNames = function () {
     if (this.options.isMultiple && this._selectedItems.length>0){
       var tmpArr = [];
-      for (i=0; i<this._selectedItems.length; i++)
-        tmpArr.push(this._selectedItems[i].title);
-
+      for (i = 0; i < this._selectedItems.length; i++)
+      if (this.options.includeParentNames) {
+        tmpArr.push(this._selectedItems[i].parents + '; ' + this._selectedItems[i].title);
+      } else {
+          tmpArr.push(this._selectedItems[i].title);
+      }
       return tmpArr;
     }
     else if (!this.options.isMultiple && this._selectedItem.hasOwnProperty('id')){
