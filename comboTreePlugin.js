@@ -19,7 +19,8 @@
       collapse: false,
       selectableLastNode: false,
       withSelectAll: false,
-      isolatedSelectable: false
+      isolatedSelectable: false,
+      includeParentNames: false
     };
 
   // LIFE CYCLE
@@ -148,7 +149,7 @@
       itemHtml += '<span class="comboTreeParentPlus">' + (this.options.collapse || collapse ? '<span class="mdi mdi-chevron-right-circle-outline"></span>' : '<span class="mdi mdi-chevron-down-circle-outline"></span>') + '</span>'; // itemHtml += '<span class="comboTreeParentPlus">' + (this.options.collapse ? '+' : '&minus;') + '</span>';
 
     if (this.options.isMultiple)
-      itemHtml += '<span data-id="' + sourceItem.id + '" data-selectable="' + isSelectable + '" class="comboTreeItemTitle ' + selectableClass + '">' + (!selectableLastNode && isSelectable ? '<input type="checkbox" />' : '') + sourceItem.title + '</span>';
+      itemHtml += '<span data-id="' + sourceItem.id + '" data-selectable="' + isSelectable + '" class="comboTreeItemTitle ' + selectableClass + '">' + (!selectableLastNode && isSelectable ? '<input name="' + sourceItem.title + '" type="checkbox" />' : '') + sourceItem.title + '</span>';
     else
       itemHtml += '<span data-id="' + sourceItem.id + '" data-selectable="' + isSelectable + '" class="comboTreeItemTitle ' + selectableClass + '">' + sourceItem.title + '</span>';
 
@@ -352,7 +353,8 @@
     if ($(ctItem).data("selectable") == true) {
       this._selectedItem = {
         id: $(ctItem).attr("data-id"),
-        title: $(ctItem).text()
+        title: $(ctItem).text(),
+        parents: $(ctItem).parents('li.ComboTreeItemParent').children("span.comboTreeItemTitle").map(function() {return $(this).text();}).get().reverse().join(' - ')
       };
 
       let check = this.isItemInArray(this._selectedItem, this.options.source);
@@ -563,9 +565,12 @@
   ComboTree.prototype.getSelectedNames = function () {
     if (this.options.isMultiple && this._selectedItems.length>0){
       var tmpArr = [];
-      for (i=0; i<this._selectedItems.length; i++)
-        tmpArr.push(this._selectedItems[i].title);
-
+      for (i = 0; i < this._selectedItems.length; i++)
+      if (this.options.includeParentNames) {
+        tmpArr.push(this._selectedItems[i].parents + '; ' + this._selectedItems[i].title);
+      } else {
+          tmpArr.push(this._selectedItems[i].title);
+      }
       return tmpArr;
     }
     else if (!this.options.isMultiple && this._selectedItem.hasOwnProperty('id')){
