@@ -38,21 +38,20 @@
 
   ComboTree.prototype.init = function () {
     // Setting Doms
-    this.id = "comboTree" + Math.floor(Math.random() * 999999);
+    this.id = "combo-tree-" + Math.floor(Math.random() * 999999);
 
     this._input.addClass("comboTreeInputBox");
 
     if (this._input.attr("id") === undefined)
-      this._input.attr("id", this.id + "Input");
-    this.inputId = this._input.attr("id");
+      this._input.attr("id", this.id + "-input");
 
     this._input.wrap(
-      '<div id="' + this.id + 'Wrapper" class="comboTreeWrapper"></div>'
+      '<div id="' + this.id + 'Wrapper" class="combo-tree-wrapper"></div>'
     );
     this._input.wrap(
       '<div id="' +
         this.id +
-        'InputWrapper" class="comboTreeInputWrapper"></div>'
+        '-input-wrapper" class="combo-tree-input-wrapper"></div>'
     );
     this._elemWrapper = $("#" + this.id + "Wrapper");
 
