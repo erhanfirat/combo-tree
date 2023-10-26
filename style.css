@@ -27,7 +27,7 @@
   position: relative;
 }
 
-.comboTreeArrowBtn {
+.combo-tree-arrow-btn {
   position: absolute;
   right: 0px;
   bottom: 0px;
@@ -42,24 +42,24 @@
   -ms-user-select: none; /* IE10+/Edge */
   user-select: none; /* Standard */
 }
-.comboTreeArrowBtn:hover {
+.combo-tree-arrow-btn:hover {
   background: var(--ct-btn-hover);
 }
-.comboTreeArrowBtn:active {
+.combo-tree-arrow-btn:active {
   background: var(--ct-btn-active);
 }
-.comboTreeInputBox:focus + .comboTreeArrowBtn {
+.combo-tree-input-box:focus + .combo-tree-arrow-btn {
   color: var(--ct-btn-color);
   border-top: 1px solid var(--ct-selection);
   border-right: 1px solid var(--ct-selection);
   border-bottom: 1px solid var(--ct-selection);
 }
 
-.comboTreeArrowBtnImg {
+.combo-tree-arrow-btnImg {
   font-size: 1.25rem;
 }
 
-.comboTreeDropDownContainer {
+.combo-tree-drop-down-container {
   display: none;
   background: var(--ct-bg);
   border: 1px solid var(--ct-border-color);
@@ -71,54 +71,54 @@
   overflow-y: auto;
 }
 
-.comboTreeDropDownContainer ul {
+.combo-tree-drop-down-container ul {
   padding: 0px;
   margin: 0;
 }
 
-.comboTreeDropDownContainer li {
+.combo-tree-drop-down-container li {
   list-style-type: none;
   padding-left: 15px;
 }
 
-.comboTreeDropDownContainer li .selectable {
+.combo-tree-drop-down-container li .selectable {
   cursor: pointer;
 }
 
-.comboTreeDropDownContainer li .not-selectable {
+.combo-tree-drop-down-container li .not-selectable {
   cursor: not-allowed;
 }
 
-.comboTreeDropDownContainer li:hover {
+.combo-tree-drop-down-container li:hover {
   background-color: var(--ct-tree-hover);
 }
-.comboTreeDropDownContainer li:hover ul {
+.combo-tree-drop-down-container li:hover ul {
   background-color: var(--ct-bg);
 }
-.comboTreeDropDownContainer li span.comboTreeItemTitle.comboTreeItemHover,
-.comboTreeDropDownContainer label.comboTreeItemHover {
+.combo-tree-drop-down-container li span.comboTreeItemTitle.comboTreeItemHover,
+.combo-tree-drop-down-container label.comboTreeItemHover {
   background-color: var(--ct-selection);
   color: var(--ct-bg);
   border-radius: 2px;
 }
 
 span.comboTreeItemTitle,
-.comboTreeDropDownContainer .selectAll {
+.combo-tree-drop-down-container .selectAll {
   display: block;
   padding: 3px var(--ct-padding);
 }
-.comboTreeDropDownContainer label {
+.combo-tree-drop-down-container label {
   cursor: pointer;
   width: 100%;
   display: block;
 }
-.comboTreeDropDownContainer .comboTreeItemTitle input,
-.comboTreeDropDownContainer .selectAll input {
+.combo-tree-drop-down-container .comboTreeItemTitle input,
+.combo-tree-drop-down-container .selectAll input {
   position: relative;
   top: 2px;
   margin: 0px 4px 0px 0px;
 }
-.comboTreeParentPlus {
+.combo-tree-parent-plus {
   position: relative;
   left: -12px;
   top: 4px;
@@ -127,7 +127,7 @@ span.comboTreeItemTitle,
   cursor: pointer;
 }
 
-.comboTreeInputBox {
+.combo-tree-input-box {
   padding: var(--ct-padding);
   border-radius: var(--ct-border-radius);
   border: 1px solid var(--ct-border-color);
@@ -135,12 +135,12 @@ span.comboTreeItemTitle,
   box-sizing: border-box;
   padding-right: 24px;
 }
-.comboTreeInputBox:focus {
+.combo-tree-input-box:focus {
   border: 1px solid var(--ct-selection);
   outline-width: 0;
 }
 
-.multiplesFilter {
+.multiples-filter {
   width: 100%;
   padding: 5px;
   box-sizing: border-box;

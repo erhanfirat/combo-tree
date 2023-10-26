@@ -40,7 +40,7 @@
     // Setting Doms
     this.id = "combo-tree-" + Math.floor(Math.random() * 999999);
 
-    this._input.addClass("comboTreeInputBox");
+    this._input.addClass("combo-tree-input-box");
 
     if (this._input.attr("id") === undefined)
       this._input.attr("id", this.id + "-input");
@@ -58,13 +58,13 @@
     this._elemArrowBtn = $(
       '<div id="' +
         this.id +
-        'ArrowBtn" class="comboTreeArrowBtn" type="button"><span class="mdi mdi-chevron-down comboTreeArrowBtnImg"></span></div>'
+        'ArrowBtn" class="combo-tree-arrow-btn" type="button"><span class="mdi mdi-chevron-down combo-tree-arrow-btnImg"></span></div>'
     );
     this._input.after(this._elemArrowBtn);
     this._elemWrapper.append(
       '<div id="' +
         this.id +
-        'DropDownContainer" class="comboTreeDropDownContainer"><div class="comboTreeDropDownContent"></div>'
+        'DropDownContainer" class="combo-tree-drop-down-container"><div class="comboTreeDropDownContent"></div>'
     );
 
     // DORP DOWN AREA
@@ -133,7 +133,7 @@
     return (
       '<input id="' +
       this.id +
-      'MultiFilter" type="text" class="multiplesFilter" placeholder="Type to filter"/>'
+      'MultiFilter" type="text" class="multiples-filter" placeholder="Type to filter"/>'
     );
   };
 
@@ -195,11 +195,11 @@
 
     if (isThereSubs)
       itemHtml +=
-        '<span class="comboTreeParentPlus">' +
+        '<span class="combo-tree-parent-plus">' +
         (this.options.collapse || collapse
           ? '<span class="mdi mdi-chevron-right-circle-outline"></span>'
           : '<span class="mdi mdi-chevron-down-circle-outline"></span>') +
-        "</span>"; // itemHtml += '<span class="comboTreeParentPlus">' + (this.options.collapse ? '+' : '&minus;') + '</span>';
+        "</span>"; // itemHtml += '<span class="combo-tree-parent-plus">' + (this.options.collapse ? '+' : '&minus;') + '</span>';
 
     if (this.options.isMultiple)
       itemHtml +=
@@ -401,25 +401,25 @@
     if (direction === undefined) {
       if ($(subMenu).is(":visible"))
         $(item)
-          .children("span.comboTreeParentPlus")
+          .children("span.combo-tree-parent-plus")
           .html('<span class="mdi mdi-chevron-right-circle-outline"></span>');
-      //$(item).children('span.comboTreeParentPlus').html("+");
+      //$(item).children('span.combo-tree-parent-plus').html("+");
       else
         $(item)
-          .children("span.comboTreeParentPlus")
-          .html('<span class="mdi mdi-chevron-down-circle-outline"></span>'); //$(item).children('span.comboTreeParentPlus').html("&minus;");
+          .children("span.combo-tree-parent-plus")
+          .html('<span class="mdi mdi-chevron-down-circle-outline"></span>'); //$(item).children('span.combo-tree-parent-plus').html("&minus;");
 
       $(subMenu).slideToggle(50);
     } else if (direction == 1 && !$(subMenu).is(":visible")) {
       $(item)
-        .children("span.comboTreeParentPlus")
-        .html('<span class="mdi mdi-chevron-down-circle-outline"></span>'); //$(item).children('span.comboTreeParentPlus').html("&minus;");
+        .children("span.combo-tree-parent-plus")
+        .html('<span class="mdi mdi-chevron-down-circle-outline"></span>'); //$(item).children('span.combo-tree-parent-plus').html("&minus;");
       $(subMenu).slideDown(50);
     } else if (direction == -1) {
       if ($(subMenu).is(":visible")) {
         $(item)
-          .children("span.comboTreeParentPlus")
-          .html('<span class="mdi mdi-chevron-right-circle-outline"></span>'); //$(item).children('span.comboTreeParentPlus').html("+");
+          .children("span.combo-tree-parent-plus")
+          .html('<span class="mdi mdi-chevron-right-circle-outline"></span>'); //$(item).children('span.combo-tree-parent-plus').html("+");
         $(subMenu).slideUp(50);
       } else {
         this.dropDownMenuHoverToParentItem(item);
@@ -581,7 +581,7 @@
 
       if (searchText != "") {
         this._elemItemsTitle.hide();
-        this._elemItemsTitle.siblings("span.comboTreeParentPlus").hide();
+        this._elemItemsTitle.siblings("span.combo-tree-parent-plus").hide();
         list = this._elemItems
           .filter(function (index, item) {
             return (
@@ -591,11 +591,11 @@
           })
           .each(function (i, elem) {
             $(this.children).show();
-            $(this).siblings("span.comboTreeParentPlus").show();
+            $(this).siblings("span.combo-tree-parent-plus").show();
           });
       } else {
         this._elemItemsTitle.show();
-        this._elemItemsTitle.siblings("span.comboTreeParentPlus").show();
+        this._elemItemsTitle.siblings("span.combo-tree-parent-plus").show();
       }
     });
 
