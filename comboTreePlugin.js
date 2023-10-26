@@ -58,7 +58,7 @@
     this._arrowBtn = $(
       '<button id="' +
         this.id +
-        '-arrow-btn" class="combo-tree-arrow-btn" type="button"><span class="mdi mdi-chevron-down combo-tree-arrow-btnImg"></span></button>'
+        '-arrow-btn" class="combo-tree-arrow-btn" type="button"><span class="mdi mdi-chevron-down combo-tree-arrow-btn-img"></span></button>'
     );
     this._input.after(this._arrowBtn);
     this._wrapper.append(
