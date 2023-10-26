@@ -56,9 +56,9 @@
     this._elemWrapper = $("#" + this.id + "Wrapper");
 
     this._elemArrowBtn = $(
-      '<div id="' +
+      '<button id="' +
         this.id +
-        'ArrowBtn" class="combo-tree-arrow-btn" type="button"><span class="mdi mdi-chevron-down combo-tree-arrow-btnImg"></span></div>'
+        'ArrowBtn" class="combo-tree-arrow-btn" type="button"><span class="mdi mdi-chevron-down combo-tree-arrow-btnImg"></span></button>'
     );
     this._input.after(this._elemArrowBtn);
     this._elemWrapper.append(
