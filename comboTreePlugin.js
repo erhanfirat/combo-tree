@@ -38,52 +38,48 @@
 
   ComboTree.prototype.init = function () {
     // Setting Doms
-    this.comboTreeId = "comboTree" + Math.floor(Math.random() * 999999);
+    this.id = "comboTree" + Math.floor(Math.random() * 999999);
 
     this._input.addClass("comboTreeInputBox");
 
     if (this._input.attr("id") === undefined)
-      this._input.attr("id", this.comboTreeId + "Input");
+      this._input.attr("id", this.id + "Input");
     this.inputId = this._input.attr("id");
 
     this._input.wrap(
-      '<div id="' +
-        this.comboTreeId +
-        'Wrapper" class="comboTreeWrapper"></div>'
+      '<div id="' + this.id + 'Wrapper" class="comboTreeWrapper"></div>'
     );
     this._input.wrap(
       '<div id="' +
-        this.comboTreeId +
+        this.id +
         'InputWrapper" class="comboTreeInputWrapper"></div>'
     );
-    this._elemWrapper = $("#" + this.comboTreeId + "Wrapper");
+    this._elemWrapper = $("#" + this.id + "Wrapper");
 
     this._elemArrowBtn = $(
       '<div id="' +
-        this.comboTreeId +
+        this.id +
         'ArrowBtn" class="comboTreeArrowBtn" type="button"><span class="mdi mdi-chevron-down comboTreeArrowBtnImg"></span></div>'
     );
     this._input.after(this._elemArrowBtn);
     this._elemWrapper.append(
       '<div id="' +
-        this.comboTreeId +
+        this.id +
         'DropDownContainer" class="comboTreeDropDownContainer"><div class="comboTreeDropDownContent"></div>'
     );
 
     // DORP DOWN AREA
-    this._elemDropDownContainer = $(
-      "#" + this.comboTreeId + "DropDownContainer"
-    );
+    this._elemDropDownContainer = $("#" + this.id + "DropDownContainer");
 
     this._elemDropDownContainer.html(this.createSourceHTML());
     this._elemFilterInput = this.options.isMultiple
-      ? $("#" + this.comboTreeId + "MultiFilter")
+      ? $("#" + this.id + "MultiFilter")
       : null;
     this._elemSelectAllInput =
       this.options.isMultiple && this.options.withSelectAll
-        ? $("#" + this.comboTreeId + "SelectAll")
+        ? $("#" + this.id + "SelectAll")
         : null;
-    this._elemSourceUl = $("#" + this.comboTreeId + "ComboTreeSourceUl");
+    this._elemSourceUl = $("#" + this.id + "ComboTreeSourceUl");
 
     this._elemItems = this._elemDropDownContainer.find("li");
     this._elemItemsTitle = this._elemDropDownContainer.find(
@@ -107,8 +103,8 @@
     this._elemItemsTitle.off("mousemove");
     this._input.off("keyup");
     this._input.off("keydown");
-    this._input.off("mouseup." + this.comboTreeId);
-    $(document).off("mouseup." + this.comboTreeId);
+    this._input.off("mouseup." + this.id);
+    $(document).off("mouseup." + this.id);
   };
 
   ComboTree.prototype.destroy = function () {
@@ -137,7 +133,7 @@
   ComboTree.prototype.createFilterHTMLForMultiSelect = function () {
     return (
       '<input id="' +
-      this.comboTreeId +
+      this.id +
       'MultiFilter" type="text" class="multiplesFilter" placeholder="Type to filter"/>'
     );
   };
@@ -145,7 +141,7 @@
   ComboTree.prototype.createSelectAllHTMLForMultiSelect = function () {
     return (
       '<label class="selectAll"><input type="checkbox" id="' +
-      this.comboTreeId +
+      this.id +
       "SelectAll" +
       '">[Select All]</label>'
     );
@@ -158,7 +154,7 @@
   ) {
     var subItemsHtml =
       '<UL id="' +
-      this.comboTreeId +
+      this.id +
       "ComboTreeSourceUl" +
       (parentId ? parentId : "main") +
       '" style="' +
@@ -191,7 +187,7 @@
 
     itemHtml +=
       '<LI id="' +
-      this.comboTreeId +
+      this.id +
       "Li" +
       sourceItem.id +
       '" class="ComboTreeItem' +
@@ -365,7 +361,7 @@
     });
 
     // ON FOCUS OUT CLOSE DROPDOWN
-    $(document).on("mouseup." + _this.comboTreeId, function (e) {
+    $(document).on("mouseup." + _this.id, function (e) {
       if (
         !_this._elemWrapper.is(e.target) &&
         _this._elemWrapper.has(e.target).length === 0 &&
@@ -407,9 +403,8 @@
       if ($(subMenu).is(":visible"))
         $(item)
           .children("span.comboTreeParentPlus")
-          .html(
-            '<span class="mdi mdi-chevron-right-circle-outline"></span>'
-          ); //$(item).children('span.comboTreeParentPlus').html("+");
+          .html('<span class="mdi mdi-chevron-right-circle-outline"></span>');
+      //$(item).children('span.comboTreeParentPlus').html("+");
       else
         $(item)
           .children("span.comboTreeParentPlus")
@@ -583,7 +578,7 @@
     (ComboTree.prototype.filterDropDownMenu = function () {
       var searchText = "";
       if (!this.options.isMultiple) searchText = this._input.val();
-      else searchText = $("#" + this.comboTreeId + "MultiFilter").val();
+      else searchText = $("#" + this.id + "MultiFilter").val();
 
       if (searchText != "") {
         this._elemItemsTitle.hide();
@@ -691,8 +686,7 @@
 
   ComboTree.prototype.clearSelection = function () {
     for (i = 0; i < this._selectedItems.length; i++) {
-      let itemElemSelector =
-        "#" + this.comboTreeId + "Li" + this._selectedItems[i].id;
+      let itemElemSelector = "#" + this.id + "Li" + this._selectedItems[i].id;
       itemElemSelector = itemElemSelector.replaceAll(".", "\\.");
       let itemElem = $(itemElemSelector);
       $(itemElem).find("input").prop("checked", false);
@@ -723,7 +717,7 @@
             var index = this.isItemInArray(selectedItem, this._selectedItems);
             if (!index) {
               let selectedItemElemSelector =
-                "#" + this.comboTreeId + "Li" + selectionIdList[i];
+                "#" + this.id + "Li" + selectionIdList[i];
               selectedItemElemSelector = selectedItemElemSelector.replaceAll(
                 ".",
                 "\\."
@@ -750,15 +744,13 @@
   ComboTree.prototype.selectAll = function () {
     // clear
     for (let i = 0; i < this._selectedItems.length; i++) {
-      let itemElem = $(
-        "#" + this.comboTreeId + "Li" + this._selectedItems[i].id
-      );
+      let itemElem = $("#" + this.id + "Li" + this._selectedItems[i].id);
       $(itemElem).find("input").prop("checked", false);
     }
     this._selectedItems = [];
     // select all
     let selected = this._selectedItems;
-    $("#" + this.comboTreeId + "ComboTreeSourceUlmain")
+    $("#" + this.id + "ComboTreeSourceUlmain")
       .find("input[type='checkbox']")
       .each(function (idx, elem) {
         let $itemElem = $(elem).parent("span").first();
