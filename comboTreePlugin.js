@@ -46,43 +46,43 @@
       this._input.attr("id", this.id + "-input");
 
     this._input.wrap(
-      '<div id="' + this.id + 'Wrapper" class="combo-tree-wrapper"></div>'
+      '<div id="' + this.id + '-wrapper" class="combo-tree-wrapper"></div>'
     );
     this._input.wrap(
       '<div id="' +
         this.id +
         '-input-wrapper" class="combo-tree-input-wrapper"></div>'
     );
-    this._elemWrapper = $("#" + this.id + "Wrapper");
+    this._wrapper = $("#" + this.id + "-wrapper");
 
-    this._elemArrowBtn = $(
+    this._arrowBtn = $(
       '<button id="' +
         this.id +
-        'ArrowBtn" class="combo-tree-arrow-btn" type="button"><span class="mdi mdi-chevron-down combo-tree-arrow-btnImg"></span></button>'
+        '-arrow-btn" class="combo-tree-arrow-btn" type="button"><span class="mdi mdi-chevron-down combo-tree-arrow-btnImg"></span></button>'
     );
-    this._input.after(this._elemArrowBtn);
-    this._elemWrapper.append(
+    this._input.after(this._arrowBtn);
+    this._wrapper.append(
       '<div id="' +
         this.id +
-        'DropDownContainer" class="combo-tree-drop-down-container"><div class="comboTreeDropDownContent"></div>'
+        '-drop-down-container" class="combo-tree-drop-down-container"><div class="combo-tree-drop-down-content"></div>'
     );
 
     // DORP DOWN AREA
-    this._elemDropDownContainer = $("#" + this.id + "DropDownContainer");
+    this._dropDownContainer = $("#" + this.id + "-drop-down-container");
 
-    this._elemDropDownContainer.html(this.createSourceHTML());
-    this._elemFilterInput = this.options.isMultiple
+    this._dropDownContainer.html(this.createSourceHTML());
+    this._filterInput = this.options.isMultiple
       ? $("#" + this.id + "MultiFilter")
       : null;
-    this._elemSelectAllInput =
+    this._selectAllInput =
       this.options.isMultiple && this.options.withSelectAll
         ? $("#" + this.id + "SelectAll")
         : null;
-    this._elemSourceUl = $("#" + this.id + "ComboTreeSourceUl");
+    this._sourceUl = $("#" + this.id + "-source-ul");
 
-    this._elemItems = this._elemDropDownContainer.find("li");
-    this._elemItemsTitle = this._elemDropDownContainer.find(
-      "span.comboTreeItemTitle"
+    this._listItems = this._dropDownContainer.find("li");
+    this._listItemsTitle = this._dropDownContainer.find(
+      "span.combo-tree-list-item-title"
     );
 
     // VARIABLES
@@ -95,11 +95,11 @@
   };
 
   ComboTree.prototype.unbind = function () {
-    this._elemArrowBtn.off("click");
+    this._arrowBtn.off("click");
     this._input.off("click");
-    this._elemItems.off("click");
-    this._elemItemsTitle.off("click");
-    this._elemItemsTitle.off("mousemove");
+    this._listItems.off("click");
+    this._listItemsTitle.off("click");
+    this._listItemsTitle.off("mousemove");
     this._input.off("keyup");
     this._input.off("keydown");
     this._input.off("mouseup." + this.id);
@@ -108,15 +108,15 @@
 
   ComboTree.prototype.destroy = function () {
     this.unbind();
-    this._elemWrapper.before(this._input);
-    this._elemWrapper.remove();
+    this._wrapper.before(this._input);
+    this._wrapper.remove();
     this._input.removeData("plugin_" + comboTreePlugin);
   };
 
   // CREATE DOM HTMLs
 
   ComboTree.prototype.removeSourceHTML = function () {
-    this._elemDropDownContainer.html("");
+    this._dropDownContainer.html("");
   };
 
   ComboTree.prototype.createSourceHTML = function () {
@@ -152,17 +152,17 @@
     collapse = false
   ) {
     var subItemsHtml =
-      '<UL id="' +
+      '<ul id="' +
       this.id +
-      "ComboTreeSourceUl" +
-      (parentId ? parentId : "main") +
+      "-source-ul" +
+      (parentId ? parentId : "-main") +
       '" style="' +
       ((this.options.collapse || collapse) && parentId ? "display:none;" : "") +
       '">';
     for (var i = 0; i < subItems.length; i++) {
       subItemsHtml += this.createSourceItemHTML(subItems[i]);
     }
-    subItemsHtml += "</UL>";
+    subItemsHtml += "</ul>";
     return subItemsHtml;
   };
 
@@ -185,9 +185,9 @@
         : false;
 
     itemHtml +=
-      '<LI id="' +
+      '<li id="' +
       this.id +
-      "Li" +
+      "-li" +
       sourceItem.id +
       '" class="ComboTreeItem' +
       (isThereSubs ? "Parent" : "Chlid") +
@@ -207,7 +207,7 @@
         sourceItem.id +
         '" data-selectable="' +
         isSelectable +
-        '" class="comboTreeItemTitle ' +
+        '" class="combo-tree-list-item-title ' +
         selectableClass +
         '">' +
         (!selectableLastNode && isSelectable
@@ -221,7 +221,7 @@
         sourceItem.id +
         '" data-selectable="' +
         isSelectable +
-        '" class="comboTreeItemTitle ' +
+        '" class="combo-tree-list-item-title ' +
         selectableClass +
         '">' +
         sourceItem.title +
@@ -234,7 +234,7 @@
         collapse
       );
 
-    itemHtml += "</LI>";
+    itemHtml += "</li>";
     return itemHtml;
   };
 
@@ -244,35 +244,35 @@
     var _this = this;
 
     $(this._input).focus(function (e) {
-      if (!_this._elemDropDownContainer.is(":visible"))
-        $(_this._elemDropDownContainer).slideToggle(100);
+      if (!_this._dropDownContainer.is(":visible"))
+        $(_this._dropDownContainer).slideToggle(100);
     });
 
-    this._elemArrowBtn.on("click", function (e) {
+    this._arrowBtn.on("click", function (e) {
       e.stopPropagation();
       _this.toggleDropDown();
     });
     this._input.on("click", function (e) {
       e.stopPropagation();
-      if (!_this._elemDropDownContainer.is(":visible")) _this.toggleDropDown();
+      if (!_this._dropDownContainer.is(":visible")) _this.toggleDropDown();
     });
-    this._elemItems.on("click", function (e) {
+    this._listItems.on("click", function (e) {
       e.stopPropagation();
       if ($(this).hasClass("ComboTreeItemParent")) {
         _this.toggleSelectionTree(this);
       }
     });
-    this._elemItemsTitle.on("click", function (e) {
+    this._listItemsTitle.on("click", function (e) {
       e.stopPropagation();
       if (_this.options.isMultiple) _this.multiItemClick(this);
       else _this.singleItemClick(this);
     });
-    this._elemItemsTitle.on("mousemove", function (e) {
+    this._listItemsTitle.on("mousemove", function (e) {
       e.stopPropagation();
       _this.dropDownMenuHover(this);
     });
-    this._elemSelectAllInput &&
-      this._elemSelectAllInput.parent("label").on("mousemove", function (e) {
+    this._selectAllInput &&
+      this._selectAllInput.parent("label").on("mousemove", function (e) {
         e.stopPropagation();
         _this.dropDownMenuHover(this);
       });
@@ -298,8 +298,8 @@
       }
     });
 
-    this._elemFilterInput &&
-      this._elemFilterInput.on("keyup", function (e) {
+    this._filterInput &&
+      this._filterInput.on("keyup", function (e) {
         e.stopPropagation();
 
         switch (e.keyCode) {
@@ -362,15 +362,15 @@
     // ON FOCUS OUT CLOSE DROPDOWN
     $(document).on("mouseup." + _this.id, function (e) {
       if (
-        !_this._elemWrapper.is(e.target) &&
-        _this._elemWrapper.has(e.target).length === 0 &&
-        _this._elemDropDownContainer.is(":visible")
+        !_this._wrapper.is(e.target) &&
+        _this._wrapper.has(e.target).length === 0 &&
+        _this._dropDownContainer.is(":visible")
       )
         _this.closeDropDownMenu();
     });
 
-    this._elemSelectAllInput &&
-      this._elemSelectAllInput.on("click", function (e) {
+    this._selectAllInput &&
+      this._selectAllInput.on("click", function (e) {
         e.stopPropagation();
         let checked = $(e.target).prop("checked");
         if (checked) {
@@ -385,14 +385,14 @@
 
   // DropDown Menu Open/Close
   ComboTree.prototype.toggleDropDown = function () {
-    let _this = this;
-    $(this._elemDropDownContainer).slideToggle(100, function () {
-      if (_this._elemDropDownContainer.is(":visible")) $(_this._input).focus();
+    const _this = this;
+    $(this._dropDownContainer).slideToggle(100, function () {
+      if (_this._dropDownContainer.is(":visible")) $(_this._input).focus();
     });
   };
 
   ComboTree.prototype.closeDropDownMenu = function () {
-    $(this._elemDropDownContainer).slideUp(100);
+    $(this._dropDownContainer).slideUp(100);
   };
 
   // Selection Tree Open/Close
@@ -535,17 +535,15 @@
   };
 
   ComboTree.prototype.dropDownMenuHover = function (itemSpan, withScroll) {
-    this._elemWrapper
-      .find(".comboTreeItemHover")
-      .removeClass("comboTreeItemHover");
+    this._wrapper.find(".comboTreeItemHover").removeClass("comboTreeItemHover");
     $(itemSpan).addClass("comboTreeItemHover");
     this._elemHoveredItem = $(itemSpan);
     if (withScroll) this.dropDownScrollToHoveredItem(this._elemHoveredItem);
   };
 
   ComboTree.prototype.dropDownScrollToHoveredItem = function (itemSpan) {
-    var curScroll = this._elemSourceUl.scrollTop();
-    this._elemSourceUl.scrollTop(
+    var curScroll = this._sourceUl.scrollTop();
+    this._sourceUl.scrollTop(
       curScroll + $(itemSpan).parent().position().top - 80
     );
   };
@@ -553,9 +551,9 @@
   ComboTree.prototype.dropDownMenuHoverToParentItem = function (item) {
     var parentSpanItem = $(
       $(item).parents("li.ComboTreeItemParent")[0]
-    ).children("span.comboTreeItemTitle");
+    ).children("span.combo-tree-list-item-title");
     if (parentSpanItem.length) this.dropDownMenuHover(parentSpanItem, true);
-    else this.dropDownMenuHover(this._elemItemsTitle[0], true);
+    else this.dropDownMenuHover(this._listItemsTitle[0], true);
   };
 
   ComboTree.prototype.dropDownInputKeyToggleTreeControl = function (direction) {
@@ -566,9 +564,9 @@
   };
 
   (ComboTree.prototype.dropDownInputKeyControl = function (step) {
-    if (!this._elemDropDownContainer.is(":visible")) this.toggleDropDown();
+    if (!this._dropDownContainer.is(":visible")) this.toggleDropDown();
 
-    var list = this._elemItems.find("span.comboTreeItemTitle:visible");
+    var list = this._listItems.find("span.combo-tree-list-item-title:visible");
     i = this._elemHoveredItem ? list.index(this._elemHoveredItem) + step : 0;
     i = (list.length + i) % list.length;
 
@@ -580,9 +578,9 @@
       else searchText = $("#" + this.id + "MultiFilter").val();
 
       if (searchText != "") {
-        this._elemItemsTitle.hide();
-        this._elemItemsTitle.siblings("span.combo-tree-parent-plus").hide();
-        list = this._elemItems
+        this._listItemsTitle.hide();
+        this._listItemsTitle.siblings("span.combo-tree-parent-plus").hide();
+        list = this._listItems
           .filter(function (index, item) {
             return (
               item.innerHTML.toLowerCase().indexOf(searchText.toLowerCase()) !=
@@ -594,13 +592,13 @@
             $(this).siblings("span.combo-tree-parent-plus").show();
           });
       } else {
-        this._elemItemsTitle.show();
-        this._elemItemsTitle.siblings("span.combo-tree-parent-plus").show();
+        this._listItemsTitle.show();
+        this._listItemsTitle.siblings("span.combo-tree-parent-plus").show();
       }
     });
 
   ComboTree.prototype.processSelected = function () {
-    let elements = this._elemItemsTitle;
+    let elements = this._listItemsTitle;
     let selectedItem = this._selectedItem;
     let selectedItems = this._selectedItems;
     this.options.selected.forEach(function (element) {
@@ -685,15 +683,15 @@
 
   ComboTree.prototype.clearSelection = function () {
     for (i = 0; i < this._selectedItems.length; i++) {
-      let itemElemSelector = "#" + this.id + "Li" + this._selectedItems[i].id;
+      let itemElemSelector = "#" + this.id + "-li" + this._selectedItems[i].id;
       itemElemSelector = itemElemSelector.replaceAll(".", "\\.");
       let itemElem = $(itemElemSelector);
       $(itemElem).find("input").prop("checked", false);
     }
     this._selectedItems = [];
     this._selectedItem = {};
-    if (this._elemSelectAllInput) {
-      this._elemSelectAllInput.prop("checked", false);
+    if (this._selectAllInput) {
+      this._selectAllInput.prop("checked", false);
     }
     this.refreshInputVal();
   };
@@ -716,7 +714,7 @@
             var index = this.isItemInArray(selectedItem, this._selectedItems);
             if (!index) {
               let selectedItemElemSelector =
-                "#" + this.id + "Li" + selectionIdList[i];
+                "#" + this.id + "-li" + selectionIdList[i];
               selectedItemElemSelector = selectedItemElemSelector.replaceAll(
                 ".",
                 "\\."
@@ -743,13 +741,13 @@
   ComboTree.prototype.selectAll = function () {
     // clear
     for (let i = 0; i < this._selectedItems.length; i++) {
-      let itemElem = $("#" + this.id + "Li" + this._selectedItems[i].id);
+      let itemElem = $("#" + this.id + "-li" + this._selectedItems[i].id);
       $(itemElem).find("input").prop("checked", false);
     }
     this._selectedItems = [];
     // select all
     let selected = this._selectedItems;
-    $("#" + this.id + "ComboTreeSourceUlmain")
+    $("#" + this.id + "-source-ul-main")
       .find("input[type='checkbox']")
       .each(function (idx, elem) {
         let $itemElem = $(elem).parent("span").first();
@@ -760,8 +758,8 @@
         $(elem).prop("checked", true);
         selected.push(item);
       });
-    if (this._elemSelectAllInput) {
-      this._elemSelectAllInput.prop("checked", true);
+    if (this._selectAllInput) {
+      this._selectAllInput.prop("checked", true);
     }
     this.refreshInputVal();
   };

@@ -95,14 +95,16 @@
 .combo-tree-drop-down-container li:hover ul {
   background-color: var(--ct-bg);
 }
-.combo-tree-drop-down-container li span.comboTreeItemTitle.comboTreeItemHover,
+.combo-tree-drop-down-container
+  li
+  span.combo-tree-list-item-title.comboTreeItemHover,
 .combo-tree-drop-down-container label.comboTreeItemHover {
   background-color: var(--ct-selection);
   color: var(--ct-bg);
   border-radius: 2px;
 }
 
-span.comboTreeItemTitle,
+span.combo-tree-list-item-title,
 .combo-tree-drop-down-container .selectAll {
   display: block;
   padding: 3px var(--ct-padding);
@@ -112,7 +114,7 @@ span.comboTreeItemTitle,
   width: 100%;
   display: block;
 }
-.combo-tree-drop-down-container .comboTreeItemTitle input,
+.combo-tree-drop-down-container .combo-tree-list-item-title input,
 .combo-tree-drop-down-container .selectAll input {
   position: relative;
   top: 2px;
