@@ -8,17 +8,17 @@
 
 (function ($, window, document, undefined) {
   // Default settings
-  var comboTreePlugin = "comboTree",
-    defaults = {
-      source: [],
-      isMultiple: false,
-      cascadeSelect: false,
-      selected: [],
-      collapse: false,
-      selectableLastNode: false,
-      withSelectAll: false,
-      isolatedSelectable: false,
-    };
+  let comboTreePlugin = "comboTree";
+  const defaults = {
+    source: [],
+    isMultiple: false,
+    cascadeSelect: false,
+    selected: [],
+    collapse: false,
+    selectableLastNode: false,
+    withSelectAll: false,
+    isolatedSelectable: false,
+  };
 
   // LIFE CYCLE
   function ComboTree(element, options) {
@@ -105,7 +105,7 @@
   };
 
   ComboTree.prototype.createSourceHTML = function () {
-    var sourceHTML = "";
+    let sourceHTML = "";
     if (this.options.isMultiple)
       sourceHTML += this.createFilterHTMLForMultiSelect();
     if (this.options.isMultiple && this.options.withSelectAll)
@@ -136,7 +136,7 @@
     parentId,
     collapse = false
   ) {
-    var subItemsHtml =
+    let subItemsHtml =
       '<ul id="' +
       this.id +
       "-source-ul" +
@@ -144,7 +144,7 @@
       '" style="' +
       ((this.options.collapse || collapse) && parentId ? "display:none;" : "") +
       '">';
-    for (var i = 0; i < subItems.length; i++) {
+    for (let i = 0; i < subItems.length; i++) {
       subItemsHtml += this.createSourceItemHTML(subItems[i]);
     }
     subItemsHtml += "</ul>";
@@ -152,11 +152,11 @@
   };
 
   ComboTree.prototype.createSourceItemHTML = function (sourceItem) {
-    var itemHtml = "",
-      isThereSubs = sourceItem.hasOwnProperty("subs"),
-      collapse = sourceItem.hasOwnProperty("collapse")
-        ? sourceItem.hasOwnProperty("collapse")
-        : false;
+    let itemHtml = "";
+    const isThereSubs = sourceItem.hasOwnProperty("subs");
+    const collapse = sourceItem.hasOwnProperty("collapse")
+      ? sourceItem.hasOwnProperty("collapse")
+      : false;
     let isSelectable =
       sourceItem.isSelectable === undefined ? true : sourceItem.isSelectable;
     let selectableClass =
@@ -226,7 +226,7 @@
   // BINDINGS
 
   ComboTree.prototype.bindings = function () {
-    var _this = this;
+    const _this = this;
 
     $(this._input).focus(function (e) {
       if (!_this._dropDownContainer.is(":visible"))
@@ -382,7 +382,7 @@
 
   // Selection Tree Open/Close
   ComboTree.prototype.toggleSelectionTree = function (item, direction) {
-    var subMenu = $(item).children("ul")[0];
+    const subMenu = $(item).children("ul")[0];
     if (direction === undefined) {
       if ($(subMenu).is(":visible"))
         $(item)
@@ -429,9 +429,12 @@
         title: $(ctItem).text(),
       };
 
-      let check = this.isItemInArray(this._selectedItem, this.options.source);
+      const check = this.isItemInArray(this._selectedItem, this.options.source);
       if (check) {
-        var index = this.isItemInArray(this._selectedItem, this._selectedItems);
+        const index = this.isItemInArray(
+          this._selectedItem,
+          this._selectedItems
+        );
         if (index) {
           this._selectedItems.splice(parseInt(index), 1);
           $(ctItem).find("input").prop("checked", false);
@@ -460,13 +463,13 @@
 
     if (this.options.cascadeSelect) {
       if ($(ctItem).parent("li").hasClass("ComboTreeItemParent")) {
-        var subMenu = $(ctItem)
+        const subMenu = $(ctItem)
           .parent("li")
           .children("ul")
           .first()
           .find('input[type="checkbox"]');
         subMenu.each(function () {
-          var $input = $(this);
+          const $input = $(this);
           if (
             $(ctItem)
               .children('input[type="checkbox"]')
@@ -490,11 +493,11 @@
 
   // recursive search for item in arr
   ComboTree.prototype.isItemInArray = function (item, arr) {
-    for (var i = 0; i < arr.length; i++) {
+    for (let i = 0; i < arr.length; i++) {
       if (item.id == arr[i].id && item.title == arr[i].title) return i + "";
 
       if (arr[i].hasOwnProperty("subs")) {
-        let found = this.isItemInArray(item, arr[i].subs);
+        const found = this.isItemInArray(item, arr[i].subs);
         if (found) return found;
       }
     }
@@ -502,10 +505,10 @@
   };
 
   ComboTree.prototype.refreshInputVal = function () {
-    var tmpTitle = "";
+    let tmpTitle = "";
 
     if (this.options.isMultiple) {
-      for (var i = 0; i < this._selectedItems.length; i++) {
+      for (let i = 0; i < this._selectedItems.length; i++) {
         tmpTitle += this._selectedItems[i].title;
         if (i < this._selectedItems.length - 1) tmpTitle += ", ";
       }
@@ -527,14 +530,14 @@
   };
 
   ComboTree.prototype.dropDownScrollToHoveredItem = function (itemSpan) {
-    var curScroll = this._sourceUl.scrollTop();
+    const curScroll = this._sourceUl.scrollTop();
     this._sourceUl.scrollTop(
       curScroll + $(itemSpan).parent().position().top - 80
     );
   };
 
   ComboTree.prototype.dropDownMenuHoverToParentItem = function (item) {
-    var parentSpanItem = $(
+    const parentSpanItem = $(
       $(item).parents("li.ComboTreeItemParent")[0]
     ).children("span.ct-list-item-title");
     if (parentSpanItem.length) this.dropDownMenuHover(parentSpanItem, true);
@@ -542,7 +545,7 @@
   };
 
   ComboTree.prototype.dropDownInputKeyToggleTreeControl = function (direction) {
-    var item = this._elemHoveredItem;
+    const item = this._elemHoveredItem;
     if ($(item).parent("li").hasClass("ComboTreeItemParent"))
       this.toggleSelectionTree($(item).parent("li"), direction);
     else if (direction == -1) this.dropDownMenuHoverToParentItem(item);
@@ -551,14 +554,14 @@
   (ComboTree.prototype.dropDownInputKeyControl = function (step) {
     if (!this._dropDownContainer.is(":visible")) this.toggleDropDown();
 
-    var list = this._listItems.find("span.ct-list-item-title:visible");
+    const list = this._listItems.find("span.ct-list-item-title:visible");
     i = this._elemHoveredItem ? list.index(this._elemHoveredItem) + step : 0;
     i = (list.length + i) % list.length;
 
     this.dropDownMenuHover(list[i], true);
   }),
     (ComboTree.prototype.filterDropDownMenu = function () {
-      var searchText = "";
+      const searchText = "";
       if (!this.options.isMultiple) searchText = this._input.val();
       else searchText = $("#" + this.id + "multi-filter").val();
 
@@ -583,7 +586,7 @@
     });
 
   ComboTree.prototype.processSelected = function () {
-    let elements = this._listItemsTitle;
+    const elements = this._listItemsTitle;
     let selectedItem = this._selectedItem;
     let selectedItems = this._selectedItems;
     this.options.selected.forEach(function (element) {
@@ -627,7 +630,7 @@
   // Returns selected id array or null
   ComboTree.prototype.getSelectedIds = function () {
     if (this.options.isMultiple && this._selectedItems.length > 0) {
-      var tmpArr = [];
+      const tmpArr = [];
       for (i = 0; i < this._selectedItems.length; i++)
         tmpArr.push(this._selectedItems[i].id);
 
@@ -644,7 +647,7 @@
   // Retuns Array (multiple), Integer (single), or False (No choice)
   ComboTree.prototype.getSelectedNames = function () {
     if (this.options.isMultiple && this._selectedItems.length > 0) {
-      var tmpArr = [];
+      const tmpArr = [];
       for (i = 0; i < this._selectedItems.length; i++)
         tmpArr.push(this._selectedItems[i].title);
 
@@ -696,7 +699,7 @@
         if (selectedItem) {
           let check = this.isItemInArray(selectedItem, this.options.source);
           if (check) {
-            var index = this.isItemInArray(selectedItem, this._selectedItems);
+            const index = this.isItemInArray(selectedItem, this._selectedItems);
             if (!index) {
               let selectedItemElemSelector =
                 "#" + this.id + "-li" + selectionIdList[i];
@@ -759,7 +762,7 @@
   // -----
 
   $.fn[comboTreePlugin] = function (options) {
-    var ctArr = [];
+    const ctArr = [];
     this.each(function () {
       if (!$.data(this, "plugin_" + comboTreePlugin)) {
         $.data(this, "plugin_" + comboTreePlugin, new ComboTree(this, options));
