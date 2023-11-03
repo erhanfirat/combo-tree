@@ -61,9 +61,9 @@
       : null;
     this._selectAllInput =
       this.options.isMultiple && this.options.withSelectAll
-        ? $("#" + this.id + "SelectAll")
+        ? this._wrapper.find(".select-all-input")
         : null;
-    this._sourceUl = $("#" + this.id + "-source-ul");
+    this._sourceUl = this._wrapper.find(".ct-source-ul-main");
 
     this._listItems = this._dropDownContainer.find("li");
     this._listItemsTitle = this._dropDownContainer.find(
@@ -124,10 +124,11 @@
 
   ComboTree.prototype.createSelectAllHTMLForMultiSelect = function () {
     return (
-      '<label class="selectAll"><input type="checkbox" id="' +
+      '<label class="select-all"><input type="checkbox" id="' +
       this.id +
-      "SelectAll" +
-      '">[Select All]</label>'
+      '-select-all-input"' +
+      'class="select-all-input"' +
+      ">[Select All]</label>"
     );
   };
 
@@ -141,7 +142,7 @@
       this.id +
       "-source-ul" +
       (parentId ? parentId : "-main") +
-      '" style="' +
+      '" class="ct-source-ul-main" style="' +
       ((this.options.collapse || collapse) && parentId ? "display:none;" : "") +
       '">';
     for (let i = 0; i < subItems.length; i++) {
