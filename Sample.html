@@ -15,10 +15,21 @@
     />
     <link rel="stylesheet" href="style.css" />
     <style>
-      body {
+      html {
+        font-family: Arial, Helvetica, sans-serif;
       }
       .container {
-        margin: 150px auto;
+        width: 80%;
+        margin: 2rem auto;
+      }
+      .flex {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+      }
+      .flex > div {
+        flex-grow: 1;
+        flex-basis: 25rem;
       }
     </style>
   </head>
@@ -30,8 +41,8 @@
         <a href="https://github.com/erhanfirat/combo-tree/">Github Home Page</a>
       </div>
 
-      <div class="row">
-        <div class="col-lg-6">
+      <div class="flex">
+        <div>
           <h3>Multi Selection</h3>
           <input
             type="text"
@@ -41,7 +52,7 @@
           />
         </div>
 
-        <div class="col-lg-6">
+        <div>
           <h3>Multi Selection With Cascade Option Select</h3>
           <input
             type="text"
@@ -51,7 +62,7 @@
           />
         </div>
 
-        <div class="col-lg-6">
+        <div>
           <h3>Single Selection</h3>
           <input
             type="text"
