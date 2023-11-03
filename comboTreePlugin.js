@@ -175,8 +175,8 @@
       this.id +
       "-li" +
       sourceItem.id +
-      '" class="ComboTreeItem' +
-      (isThereSubs ? "Parent" : "Chlid") +
+      '" class="ct-item-' +
+      (isThereSubs ? "parent" : "child") +
       '"> ';
 
     if (isThereSubs)
@@ -244,7 +244,7 @@
     });
     this._listItems.on("click", function (e) {
       e.stopPropagation();
-      if ($(this).hasClass("ComboTreeItemParent")) {
+      if ($(this).hasClass("ct-item-parent")) {
         _this.toggleSelectionTree(this);
       }
     });
@@ -417,7 +417,7 @@
   ComboTree.prototype.selectMultipleItem = function (ctItem) {
     if (
       this.options.selectableLastNode &&
-      $(ctItem).parent("li").hasClass("ComboTreeItemParent")
+      $(ctItem).parent("li").hasClass("ct-item-parent")
     ) {
       this.toggleSelectionTree($(ctItem).parent("li"));
 
@@ -463,7 +463,7 @@
     this.selectMultipleItem(ctItem);
 
     if (this.options.cascadeSelect) {
-      if ($(ctItem).parent("li").hasClass("ComboTreeItemParent")) {
+      if ($(ctItem).parent("li").hasClass("ct-item-parent")) {
         const subMenu = $(ctItem)
           .parent("li")
           .children("ul")
@@ -538,16 +538,16 @@
   };
 
   ComboTree.prototype.dropDownMenuHoverToParentItem = function (item) {
-    const parentSpanItem = $(
-      $(item).parents("li.ComboTreeItemParent")[0]
-    ).children("span.ct-list-item-title");
+    const parentSpanItem = $($(item).parents("li.ct-item-parent")[0]).children(
+      "span.ct-list-item-title"
+    );
     if (parentSpanItem.length) this.dropDownMenuHover(parentSpanItem, true);
     else this.dropDownMenuHover(this._listItemsTitle[0], true);
   };
 
   ComboTree.prototype.dropDownInputKeyToggleTreeControl = function (direction) {
     const item = this._elemHoveredItem;
-    if ($(item).parent("li").hasClass("ComboTreeItemParent"))
+    if ($(item).parent("li").hasClass("ct-item-parent"))
       this.toggleSelectionTree($(item).parent("li"), direction);
     else if (direction == -1) this.dropDownMenuHoverToParentItem(item);
   };
