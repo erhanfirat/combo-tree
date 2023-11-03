@@ -38,41 +38,26 @@
 
   ComboTree.prototype.init = function () {
     // Setting Doms
-    this.id = "combo-tree-" + Math.floor(Math.random() * 999999);
+    this.id = "ct-" + Math.floor(Math.random() * 999999);
 
-    this._input.addClass("combo-tree-input-box");
-
-    if (this._input.attr("id") === undefined)
-      this._input.attr("id", this.id + "-input");
-
+    this._input.addClass("ct-input-box");
     this._input.wrap(
-      '<div id="' + this.id + '-wrapper" class="combo-tree-wrapper"></div>'
+      '<div id="' + this.id + '-wrapper" class="ct-wrapper"></div>'
     );
-    this._input.wrap(
-      '<div id="' +
-        this.id +
-        '-input-wrapper" class="combo-tree-input-wrapper"></div>'
-    );
+    this._input.wrap('<div class="ct-input-wrapper"></div>');
     this._wrapper = $("#" + this.id + "-wrapper");
 
-    this._arrowBtn = $(
-      '<button id="' +
-        this.id +
-        '-arrow-btn" class="combo-tree-arrow-btn" type="button"><span class="mdi mdi-chevron-down combo-tree-arrow-btn-img"></span></button>'
-    );
+    this._arrowBtn = $('<button class="ct-arrow-btn" type="button">v</button>');
     this._input.after(this._arrowBtn);
-    this._wrapper.append(
-      '<div id="' +
-        this.id +
-        '-drop-down-container" class="combo-tree-drop-down-container"><div class="combo-tree-drop-down-content"></div>'
-    );
+
+    this._wrapper.append('<div class="ct-drop-down-container"></div>');
 
     // DORP DOWN AREA
-    this._dropDownContainer = $("#" + this.id + "-drop-down-container");
+    this._dropDownContainer = this._wrapper.find(".ct-drop-down-container");
 
     this._dropDownContainer.html(this.createSourceHTML());
     this._filterInput = this.options.isMultiple
-      ? $("#" + this.id + "MultiFilter")
+      ? $("#" + this.id + "-multi-filter")
       : null;
     this._selectAllInput =
       this.options.isMultiple && this.options.withSelectAll
@@ -82,7 +67,7 @@
 
     this._listItems = this._dropDownContainer.find("li");
     this._listItemsTitle = this._dropDownContainer.find(
-      "span.combo-tree-list-item-title"
+      "span.ct-list-item-title"
     );
 
     // VARIABLES
@@ -133,7 +118,7 @@
     return (
       '<input id="' +
       this.id +
-      'MultiFilter" type="text" class="multiples-filter" placeholder="Type to filter"/>'
+      '-multi-filter" type="text" class="multiples-filter" placeholder="Type to filter"/>'
     );
   };
 
@@ -195,11 +180,11 @@
 
     if (isThereSubs)
       itemHtml +=
-        '<span class="combo-tree-parent-plus">' +
+        '<span class="ct-parent-plus">' +
         (this.options.collapse || collapse
           ? '<span class="mdi mdi-chevron-right-circle-outline"></span>'
           : '<span class="mdi mdi-chevron-down-circle-outline"></span>') +
-        "</span>"; // itemHtml += '<span class="combo-tree-parent-plus">' + (this.options.collapse ? '+' : '&minus;') + '</span>';
+        "</span>"; // itemHtml += '<span class="ct-parent-plus">' + (this.options.collapse ? '+' : '&minus;') + '</span>';
 
     if (this.options.isMultiple)
       itemHtml +=
@@ -207,7 +192,7 @@
         sourceItem.id +
         '" data-selectable="' +
         isSelectable +
-        '" class="combo-tree-list-item-title ' +
+        '" class="ct-list-item-title ' +
         selectableClass +
         '">' +
         (!selectableLastNode && isSelectable
@@ -221,7 +206,7 @@
         sourceItem.id +
         '" data-selectable="' +
         isSelectable +
-        '" class="combo-tree-list-item-title ' +
+        '" class="ct-list-item-title ' +
         selectableClass +
         '">' +
         sourceItem.title +
@@ -401,25 +386,25 @@
     if (direction === undefined) {
       if ($(subMenu).is(":visible"))
         $(item)
-          .children("span.combo-tree-parent-plus")
+          .children("span.ct-parent-plus")
           .html('<span class="mdi mdi-chevron-right-circle-outline"></span>');
-      //$(item).children('span.combo-tree-parent-plus').html("+");
+      //$(item).children('span.ct-parent-plus').html("+");
       else
         $(item)
-          .children("span.combo-tree-parent-plus")
-          .html('<span class="mdi mdi-chevron-down-circle-outline"></span>'); //$(item).children('span.combo-tree-parent-plus').html("&minus;");
+          .children("span.ct-parent-plus")
+          .html('<span class="mdi mdi-chevron-down-circle-outline"></span>'); //$(item).children('span.ct-parent-plus').html("&minus;");
 
       $(subMenu).slideToggle(50);
     } else if (direction == 1 && !$(subMenu).is(":visible")) {
       $(item)
-        .children("span.combo-tree-parent-plus")
-        .html('<span class="mdi mdi-chevron-down-circle-outline"></span>'); //$(item).children('span.combo-tree-parent-plus').html("&minus;");
+        .children("span.ct-parent-plus")
+        .html('<span class="mdi mdi-chevron-down-circle-outline"></span>'); //$(item).children('span.ct-parent-plus').html("&minus;");
       $(subMenu).slideDown(50);
     } else if (direction == -1) {
       if ($(subMenu).is(":visible")) {
         $(item)
-          .children("span.combo-tree-parent-plus")
-          .html('<span class="mdi mdi-chevron-right-circle-outline"></span>'); //$(item).children('span.combo-tree-parent-plus').html("+");
+          .children("span.ct-parent-plus")
+          .html('<span class="mdi mdi-chevron-right-circle-outline"></span>'); //$(item).children('span.ct-parent-plus').html("+");
         $(subMenu).slideUp(50);
       } else {
         this.dropDownMenuHoverToParentItem(item);
@@ -551,7 +536,7 @@
   ComboTree.prototype.dropDownMenuHoverToParentItem = function (item) {
     var parentSpanItem = $(
       $(item).parents("li.ComboTreeItemParent")[0]
-    ).children("span.combo-tree-list-item-title");
+    ).children("span.ct-list-item-title");
     if (parentSpanItem.length) this.dropDownMenuHover(parentSpanItem, true);
     else this.dropDownMenuHover(this._listItemsTitle[0], true);
   };
@@ -566,7 +551,7 @@
   (ComboTree.prototype.dropDownInputKeyControl = function (step) {
     if (!this._dropDownContainer.is(":visible")) this.toggleDropDown();
 
-    var list = this._listItems.find("span.combo-tree-list-item-title:visible");
+    var list = this._listItems.find("span.ct-list-item-title:visible");
     i = this._elemHoveredItem ? list.index(this._elemHoveredItem) + step : 0;
     i = (list.length + i) % list.length;
 
@@ -575,11 +560,11 @@
     (ComboTree.prototype.filterDropDownMenu = function () {
       var searchText = "";
       if (!this.options.isMultiple) searchText = this._input.val();
-      else searchText = $("#" + this.id + "MultiFilter").val();
+      else searchText = $("#" + this.id + "multi-filter").val();
 
       if (searchText != "") {
         this._listItemsTitle.hide();
-        this._listItemsTitle.siblings("span.combo-tree-parent-plus").hide();
+        this._listItemsTitle.siblings("span.ct-parent-plus").hide();
         list = this._listItems
           .filter(function (index, item) {
             return (
@@ -589,11 +574,11 @@
           })
           .each(function (i, elem) {
             $(this.children).show();
-            $(this).siblings("span.combo-tree-parent-plus").show();
+            $(this).siblings("span.ct-parent-plus").show();
           });
       } else {
         this._listItemsTitle.show();
-        this._listItemsTitle.siblings("span.combo-tree-parent-plus").show();
+        this._listItemsTitle.siblings("span.ct-parent-plus").show();
       }
     });
 
@@ -786,3 +771,9 @@
     else return ctArr;
   };
 })(jQuery, window, document);
+
+const comboTreeIcons = {
+  downIcon: `<?xml version="1.0" encoding="utf-8"?><svg width="800px" height="800px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M7 10L12 15L17 10" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
+  plus: `<?xml version="1.0" encoding="utf-8"?><svg width="800px" height="800px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9 12H15" stroke="#323232" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 9L12 15" stroke="#323232" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
+  minus: `<?xml version="1.0" encoding="utf-8"?><svg width="800px" height="800px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9 12H15" stroke="#323232" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
+};
