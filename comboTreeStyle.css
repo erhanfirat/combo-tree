@@ -32,6 +32,13 @@
   position: relative;
 }
 
+.ct-input-box {
+  padding: var(--ct-padding) 1.5rem var(--ct-padding) var(--ct-padding);
+  border-radius: var(--ct-border-radius);
+  border: 1px solid var(--ct-border-color);
+  width: 100%;
+}
+
 .ct-arrow-btn {
   position: absolute;
   right: 0px;
@@ -41,10 +48,6 @@
   border: none;
   background: none;
   cursor: pointer;
-  -webkit-user-select: none; /* Safari */
-  -moz-user-select: none; /* Firefox */
-  -ms-user-select: none; /* IE10+/Edge */
-  user-select: none; /* Standard */
 }
 .ct-arrow-btn:hover {
   color: var(--ct-selection);
@@ -56,36 +59,34 @@
   color: var(--ct-selection);
 }
 
+.ct-drop-down-container,
+.ct-drop-down-container *,
+.ct-arrow-btn {
+  -webkit-user-select: none; /* Safari */
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* IE10+/Edge */
+  user-select: none; /* Standard */
+}
+
 .ct-drop-down-container {
   display: none;
   background: var(--ct-bg);
   border: 1px solid var(--ct-border-color);
   position: absolute;
   width: 100%;
-  box-sizing: border-box;
   z-index: 999;
   max-height: 250px;
   overflow-y: auto;
-  -webkit-user-select: none; /* Safari */
-  -moz-user-select: none; /* Firefox */
-  -ms-user-select: none; /* IE10+/Edge */
-  user-select: none; /* Standard */
-}
-.ct-drop-down-container * {
-  -webkit-user-select: none; /* Safari */
-  -moz-user-select: none; /* Firefox */
-  -ms-user-select: none; /* IE10+/Edge */
-  user-select: none; /* Standard */
 }
 
 .ct-drop-down-container ul {
-  padding: 0px;
+  padding: 0;
   margin: 0;
 }
 
 .ct-drop-down-container li {
   list-style-type: none;
-  padding-left: 15px;
+  padding-left: 0.75rem;
 }
 
 .ct-drop-down-container li .selectable {
@@ -134,14 +135,6 @@ span.ct-list-item-title,
   cursor: pointer;
 }
 
-.ct-input-box {
-  padding: var(--ct-padding);
-  border-radius: var(--ct-border-radius);
-  border: 1px solid var(--ct-border-color);
-  width: 100%;
-  box-sizing: border-box;
-  padding-right: 24px;
-}
 .ct-input-box:focus {
   border: 1px solid var(--ct-selection);
   outline-width: 0;
@@ -150,7 +143,6 @@ span.ct-list-item-title,
 .multiples-filter {
   width: 100%;
   padding: 5px;
-  box-sizing: border-box;
   border-top: none;
   border-left: none;
   border-right: none;
