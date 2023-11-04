@@ -18,6 +18,7 @@
     selectableLastNode: false,
     withSelectAll: false,
     isolatedSelectable: false,
+    animationTime: 200,
   };
 
   // LIFE CYCLE
@@ -236,7 +237,7 @@
 
     $(this._input).focus(function (e) {
       if (!_this._dropDownContainer.is(":visible"))
-        $(_this._dropDownContainer).slideToggle(100);
+        $(_this._dropDownContainer).slideToggle(this.options.animationTime);
     });
 
     this._arrowBtn.on("click", function (e) {
@@ -377,13 +378,16 @@
   // DropDown Menu Open/Close
   ComboTree.prototype.toggleDropDown = function () {
     const _this = this;
-    $(this._dropDownContainer).slideToggle(100, function () {
-      if (_this._dropDownContainer.is(":visible")) $(_this._input).focus();
-    });
+    $(this._dropDownContainer).slideToggle(
+      this.options.animationTime,
+      function () {
+        if (_this._dropDownContainer.is(":visible")) $(_this._input).focus();
+      }
+    );
   };
 
   ComboTree.prototype.closeDropDownMenu = function () {
-    $(this._dropDownContainer).slideUp(100);
+    $(this._dropDownContainer).slideUp(this.options.animationTime);
   };
 
   // Selection Tree Open/Close
@@ -394,14 +398,14 @@
         $(item).children("span.ct-parent-plus").html("+");
       else $(item).children("span.ct-parent-plus").html("-");
 
-      $(subMenu).slideToggle(50);
+      $(subMenu).slideToggle(this.options.animationTime);
     } else if (direction == 1 && !$(subMenu).is(":visible")) {
       $(item).children("span.ct-parent-plus").html("-");
-      $(subMenu).slideDown(50);
+      $(subMenu).slideDown(this.options.animationTime);
     } else if (direction == -1) {
       if ($(subMenu).is(":visible")) {
         $(item).children("span.ct-parent-plus").html("+");
-        $(subMenu).slideUp(50);
+        $(subMenu).slideUp(this.options.animationTime);
       } else {
         this.dropDownMenuHoverToParentItem(item);
       }
