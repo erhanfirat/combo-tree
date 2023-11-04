@@ -129,11 +129,13 @@ span.ct-list-item-title,
 
 .ct-parent-plus {
   position: relative;
-  left: -12px;
-  top: 4px;
-  width: 4px;
-  float: left;
+  display: inline-block;
+  width: 0.75rem;
+  left: -0.75rem;
+  top: 0.25rem;
   cursor: pointer;
+  font-weight: bold;
+  font-size: 0.75rem;
 }
 
 .ct-input-box:focus {

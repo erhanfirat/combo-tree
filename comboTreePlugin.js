@@ -179,19 +179,17 @@
       (isThereSubs ? "parent" : "child") +
       '"> ';
 
-    itemHtml +=
-      '<span data-id="' +
-      sourceItem.id +
-      '" data-selectable="' +
-      isSelectable +
-      '"';
+    // itemHtml +=
+    //   '<span data-id="' +
+    //   sourceItem.id +
+    //   '" data-selectable="' +
+    //   isSelectable +
+    //   '"';
 
     if (isThereSubs)
       itemHtml +=
         '<span class="ct-parent-plus">' +
-        (this.options.collapse || collapse
-          ? '<span class="mdi mdi-chevron-right-circle-outline"></span>'
-          : '<span class="mdi mdi-chevron-down-circle-outline"></span>') +
+        (this.options.collapse || collapse ? "+" : "-") +
         "</span>";
 
     if (this.options.isMultiple)
@@ -393,26 +391,16 @@
     const subMenu = $(item).children("ul")[0];
     if (direction === undefined) {
       if ($(subMenu).is(":visible"))
-        $(item)
-          .children("span.ct-parent-plus")
-          .html('<span class="mdi mdi-chevron-right-circle-outline"></span>');
-      //$(item).children('span.ct-parent-plus').html("+");
-      else
-        $(item)
-          .children("span.ct-parent-plus")
-          .html('<span class="mdi mdi-chevron-down-circle-outline"></span>'); //$(item).children('span.ct-parent-plus').html("&minus;");
+        $(item).children("span.ct-parent-plus").html("+");
+      else $(item).children("span.ct-parent-plus").html("-");
 
       $(subMenu).slideToggle(50);
     } else if (direction == 1 && !$(subMenu).is(":visible")) {
-      $(item)
-        .children("span.ct-parent-plus")
-        .html('<span class="mdi mdi-chevron-down-circle-outline"></span>'); //$(item).children('span.ct-parent-plus').html("&minus;");
+      $(item).children("span.ct-parent-plus").html("-");
       $(subMenu).slideDown(50);
     } else if (direction == -1) {
       if ($(subMenu).is(":visible")) {
-        $(item)
-          .children("span.ct-parent-plus")
-          .html('<span class="mdi mdi-chevron-right-circle-outline"></span>'); //$(item).children('span.ct-parent-plus').html("+");
+        $(item).children("span.ct-parent-plus").html("+");
         $(subMenu).slideUp(50);
       } else {
         this.dropDownMenuHoverToParentItem(item);
