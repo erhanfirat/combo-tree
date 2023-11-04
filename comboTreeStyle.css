@@ -15,12 +15,17 @@
   --ct-border-radius: 5px;
   --ct-tree-hover: #efefef;
   --ct-selection: #418eff;
-  --ct-padding: 8px;
+  --ct-padding: 0.5rem;
 }
 
 .ct-wrapper {
   position: relative;
   text-align: left !important;
+  box-sizing: border-box;
+}
+
+.ct-wrapper * {
+  box-sizing: border-box !important;
 }
 
 .ct-input-wrapper {
@@ -32,9 +37,8 @@
   right: 0px;
   bottom: 0px;
   top: 0px;
-  box-sizing: border-box;
+  padding: 0.5rem;
   border: none;
-  border-radius: 0 var(--ct-border-radius) var(--ct-border-radius) 0;
   background: none;
   cursor: pointer;
   -webkit-user-select: none; /* Safari */
@@ -43,16 +47,13 @@
   user-select: none; /* Standard */
 }
 .ct-arrow-btn:hover {
-  background: var(--ct-btn-hover);
+  color: var(--ct-selection);
 }
 .ct-arrow-btn:active {
-  background: var(--ct-btn-active);
+  color: var(--ct-selection);
 }
 .ct-input-box:focus + .ct-arrow-btn {
-  color: var(--ct-btn-color);
-  border-top: 1px solid var(--ct-selection);
-  border-right: 1px solid var(--ct-selection);
-  border-bottom: 1px solid var(--ct-selection);
+  color: var(--ct-selection);
 }
 
 .ct-drop-down-container {
@@ -65,6 +66,12 @@
   z-index: 999;
   max-height: 250px;
   overflow-y: auto;
+  -webkit-user-select: none; /* Safari */
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* IE10+/Edge */
+  user-select: none; /* Standard */
+}
+.ct-drop-down-container * {
   -webkit-user-select: none; /* Safari */
   -moz-user-select: none; /* Firefox */
   -ms-user-select: none; /* IE10+/Edge */
