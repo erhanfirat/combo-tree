@@ -8,11 +8,8 @@
 
 :root {
   --ct-bg: #fff;
-  --ct-btn-hover: #e8e8e8;
-  --ct-btn-active: #ddd;
-  --ct-btn-color: #555;
   --ct-border-color: #e1e1e1;
-  --ct-border-radius: 5px;
+  --ct-border-radius: 0.5rem;
   --ct-tree-hover: #efefef;
   --ct-selection: #418eff;
   --ct-padding: 0.5rem;
@@ -77,6 +74,7 @@
   z-index: 999;
   max-height: 250px;
   overflow-y: auto;
+  box-shadow: 0 5px 15px -5px rgba(0, 0, 0, 0.3);
 }
 
 .ct-drop-down-container ul {
