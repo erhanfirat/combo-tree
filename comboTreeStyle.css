@@ -111,7 +111,7 @@
 }
 
 span.ct-list-item-title,
-.ct-drop-down-container .selectAll {
+.ct-drop-down-container .select-all {
   display: block;
   padding: 3px var(--ct-padding);
 }
@@ -121,11 +121,12 @@ span.ct-list-item-title,
   display: block;
 }
 .ct-drop-down-container .ct-list-item-title input,
-.ct-drop-down-container .selectAll input {
+.ct-drop-down-container .select-all input {
   position: relative;
   top: 2px;
   margin: 0px 4px 0px 0px;
 }
+
 .ct-parent-plus {
   position: relative;
   left: -12px;
@@ -140,11 +141,9 @@ span.ct-list-item-title,
   outline-width: 0;
 }
 
-.multiples-filter {
+.ct-multiples-filter {
   width: 100%;
-  padding: 5px;
-  border-top: none;
-  border-left: none;
-  border-right: none;
+  padding: var(--ct-padding);
+  border: none;
   border-bottom: 1px solid var(--ct-border-color);
 }

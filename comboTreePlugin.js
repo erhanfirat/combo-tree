@@ -118,7 +118,7 @@
     return (
       '<input id="' +
       this.id +
-      '-multi-filter" type="text" class="multiples-filter" placeholder="Type to filter"/>'
+      '-multi-filter" type="text" class="ct-multiples-filter" placeholder="Type to filter"/>'
     );
   };
 
