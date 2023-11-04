@@ -47,7 +47,7 @@
     this._input.wrap('<div class="ct-input-wrapper"></div>');
     this._wrapper = $("#" + this.id + "-wrapper");
 
-    this._arrowBtn = $('<button class="ct-arrow-btn" type="button">v</button>');
+    this._arrowBtn = $('<button class="ct-arrow-btn" type="button">⯆</button>');
     this._input.after(this._arrowBtn);
 
     this._wrapper.append('<div class="ct-drop-down-container"></div>');
@@ -179,13 +179,20 @@
       (isThereSubs ? "parent" : "child") +
       '"> ';
 
+    itemHtml +=
+      '<span data-id="' +
+      sourceItem.id +
+      '" data-selectable="' +
+      isSelectable +
+      '"';
+
     if (isThereSubs)
       itemHtml +=
         '<span class="ct-parent-plus">' +
         (this.options.collapse || collapse
           ? '<span class="mdi mdi-chevron-right-circle-outline"></span>'
           : '<span class="mdi mdi-chevron-down-circle-outline"></span>') +
-        "</span>"; // itemHtml += '<span class="ct-parent-plus">' + (this.options.collapse ? '+' : '&minus;') + '</span>';
+        "</span>";
 
     if (this.options.isMultiple)
       itemHtml +=
