@@ -121,6 +121,7 @@ span.ct-list-item-title,
 .ct-drop-down-container .select-all {
   display: block;
   padding: 0.25rem 1rem;
+  margin-left: 1rem;
 }
 .ct-drop-down-container label {
   cursor: pointer;
@@ -138,7 +139,6 @@ span.ct-list-item-title,
   position: absolute;
   display: inline-block;
   width: 1rem;
-  left: 0;
   padding-top: 0.25rem;
   cursor: pointer;
   font-weight: bold;
@@ -151,7 +151,7 @@ span.ct-list-item-title,
   outline-width: 0;
 }
 
-.ct-multiples-filter {
+.ct-drop-down-container input.ct-multiples-filter {
   width: 100%;
   padding: var(--ct-padding);
   border: none;
