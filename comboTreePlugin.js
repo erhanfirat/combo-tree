@@ -388,7 +388,7 @@
         $(item).children("span.ct-parent-plus").html("+");
         $(subMenu).slideUp(this.options.animationTime);
       } else {
-        this.dropDownMenuHoverToParentItem(item);
+        this.dropDownMenuHover(item);
       }
     }
   };
@@ -514,24 +514,14 @@
   };
 
   ComboTree.prototype.dropDownScrollToHoveredItem = function (itemSpan) {
-    const curScroll = this._sourceUl.parent().scrollTop();
     this._sourceUl.parent().scrollTop(itemSpan[0].offsetTop - 30);
-  };
-
-  ComboTree.prototype.dropDownMenuHoverToParentItem = function (item) {
-    const parentSpanItem = $($(item).parents("li.ct-item-parent")[0]).children(
-      "span.ct-list-item-title"
-    );
-    this.dropDownMenuHover(item, true);
-    // if (parentSpanItem.length) this.dropDownMenuHover(parentSpanItem, true);
-    // else this.dropDownMenuHover(this._listItemsTitle[0], true);
   };
 
   ComboTree.prototype.dropDownInputKeyToggleTreeControl = function (direction) {
     const item = this._elemHoveredItem;
     if ($(item).parent("li").hasClass("ct-item-parent"))
       this.toggleSelectionTree($(item).parent("li"), direction);
-    else if (direction == -1) this.dropDownMenuHoverToParentItem(item);
+    else if (direction == -1) this.dropDownMenuHover(item);
   };
 
   ComboTree.prototype.dropDownInputKeyControl = function (step) {
