@@ -391,10 +391,11 @@
 
   // SELECTION FUNCTIONS
   ComboTree.prototype.selectMultipleItem = function (ctItem) {
-    if ($(ctItem).parent("li").hasClass("ct-item-parent")) {
+    if (
+      $(ctItem).parent("li").hasClass("ct-item-parent") &&
+      $(ctItem).data("selectable") == false
+    ) {
       this.toggleSelectionTree($(ctItem).parent("li"));
-
-      return false;
     }
 
     if ($(ctItem).data("selectable") == true) {
