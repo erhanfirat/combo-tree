@@ -109,9 +109,9 @@
     let sourceHTML = "";
     if (this.options.isMultiple)
       sourceHTML += this.createFilterHTMLForMultiSelect();
-    if (this.options.isMultiple && this.options.withSelectAll)
-      sourceHTML += this.createSelectAllHTMLForMultiSelect();
-    sourceHTML += this.createSourceSubItemsHTML(this.options.source);
+    // if (this.options.isMultiple && this.options.withSelectAll)
+    //   sourceHTML += this.createSelectAllHTMLForMultiSelect();
+    sourceHTML += this.createSourceSubItemsHTML(this.options.source, false);
     return sourceHTML;
   };
 
@@ -125,11 +125,11 @@
 
   ComboTree.prototype.createSelectAllHTMLForMultiSelect = function () {
     return (
-      '<label class="select-all"><input type="checkbox" id="' +
+      '<li id="ct-select-all-li"><label class="select-all"><input type="checkbox" id="' +
       this.id +
       '-select-all-input"' +
       'class="select-all-input"' +
-      ">[Select All]</label>"
+      ">[Select All]</label></li>"
     );
   };
 
@@ -148,6 +148,14 @@
       '" style="' +
       ((this.options.collapse || collapse) && parentId ? "display:none;" : "") +
       '">';
+
+    if (
+      parentId === false &&
+      this.options.isMultiple &&
+      this.options.withSelectAll
+    )
+      subItemsHtml += this.createSelectAllHTMLForMultiSelect();
+
     for (let i = 0; i < subItems.length; i++) {
       subItemsHtml += this.createSourceItemHTML(subItems[i]);
     }
@@ -174,13 +182,7 @@
         : false;
 
     itemHtml +=
-      '<li id="' +
-      this.id +
-      "-li" +
-      sourceItem.id +
-      '" class="ct-item-' +
-      (isThereSubs ? "parent" : "child") +
-      '"> ';
+      '<li class="ct-item-' + (isThereSubs ? "parent" : "child") + '"> ';
 
     itemHtml += `${
       isThereSubs
@@ -507,22 +509,24 @@
     this._wrapper.find(".ct-tree-item-hover").removeClass("ct-tree-item-hover");
     $(itemSpan).addClass("ct-tree-item-hover");
     this._elemHoveredItem = $(itemSpan);
-    if (withScroll) this.dropDownScrollToHoveredItem(this._elemHoveredItem);
+    if (withScroll && itemSpan)
+      this.dropDownScrollToHoveredItem(this._elemHoveredItem);
   };
 
   ComboTree.prototype.dropDownScrollToHoveredItem = function (itemSpan) {
     const curScroll = this._sourceUl.scrollTop();
-    this._sourceUl.scrollTop(
-      curScroll + $(itemSpan).parent().position().top - 80
-    );
+    this._sourceUl
+      .parent()
+      .scrollTop(curScroll + $(itemSpan).offset().top - 100);
   };
 
   ComboTree.prototype.dropDownMenuHoverToParentItem = function (item) {
     const parentSpanItem = $($(item).parents("li.ct-item-parent")[0]).children(
       "span.ct-list-item-title"
     );
-    if (parentSpanItem.length) this.dropDownMenuHover(parentSpanItem, true);
-    else this.dropDownMenuHover(this._listItemsTitle[0], true);
+    this.dropDownMenuHover(item, true);
+    // if (parentSpanItem.length) this.dropDownMenuHover(parentSpanItem, true);
+    // else this.dropDownMenuHover(this._listItemsTitle[0], true);
   };
 
   ComboTree.prototype.dropDownInputKeyToggleTreeControl = function (direction) {
@@ -536,7 +540,7 @@
     if (!this._dropDownContainer.is(":visible")) this.toggleDropDown();
 
     const list = this._listItems.find("span.ct-list-item-title:visible");
-    const i = this._elemHoveredItem
+    let i = this._elemHoveredItem
       ? list.index(this._elemHoveredItem) + step
       : 0;
     i = (list.length + i) % list.length;

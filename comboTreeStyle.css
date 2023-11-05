@@ -84,9 +84,12 @@
 
 .ct-drop-down-container li {
   list-style-type: none;
-  padding-left: 1rem;
-  position: relative;
+  padding-left: 0;
   cursor: pointer;
+}
+
+.ct-drop-down-container .ct-item-parent li {
+  padding-left: 1rem;
 }
 
 .ct-drop-down-container li .not-selectable {
