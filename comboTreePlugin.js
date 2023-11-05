@@ -711,25 +711,19 @@
   };
 
   ComboTree.prototype.selectAll = function () {
-    // clear
-    for (let i = 0; i < this._selectedItems.length; i++) {
-      let itemElem = $("#" + this.id + "-li" + this._selectedItems[i].id);
-      $(itemElem).find("input").prop("checked", false);
-    }
+    const _this = this;
     this._selectedItems = [];
-    // select all
-    let selected = this._selectedItems;
     this._wrapper
       .find("#" + this.id + "-source-ul-main")
-      .find("input[type='checkbox']")
-      .each(function (idx, elem) {
-        let $itemElem = $(elem).parent("span").first();
+      .find("[data-selectable=true] input[type='checkbox']")
+      .each(function (idx, inputCheck) {
+        let $itemElem = $(inputCheck).parent("span").first();
         let item = {
           id: $itemElem.data("id"),
           title: $itemElem.text(),
         };
-        $(elem).prop("checked", true);
-        selected.push(item);
+        $(inputCheck).prop("checked", true);
+        _this._selectedItems.push(item);
       });
     if (this._selectAllInput) {
       this._selectAllInput.prop("checked", true);
