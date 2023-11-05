@@ -76,12 +76,32 @@
 
         <div>
           <h3>Single Selection</h3>
+          <pre>
+  comboTree2 = $("#justAnotherInputBox").comboTree({
+    source: SampleJSONData,
+    isMultiple: false,
+  });
+          </pre>
           <input
             type="text"
             id="justAnotherInputBox"
             placeholder="Type to filter"
             autocomplete="off"
           />
+        </div>
+        <div>
+          <h3>Default Settings</h3>
+          <pre>
+  const defaults = {
+    source: [],
+    isMultiple: false,
+    cascadeSelect: false,
+    selected: [],
+    collapse: false,
+    withSelectAll: false,
+    animationTime: 200,
+  };
+          </pre>
         </div>
       </div>
     </div>
