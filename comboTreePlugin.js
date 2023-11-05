@@ -15,9 +15,7 @@
     cascadeSelect: false,
     selected: [],
     collapse: false,
-    selectableLastNode: false,
     withSelectAll: false,
-    isolatedSelectable: false,
     animationTime: 200,
   };
 
@@ -172,13 +170,15 @@
     let isSelectable =
       sourceItem.isSelectable === undefined ? true : sourceItem.isSelectable;
     let selectableClass = isSelectable ? "selectable" : "not-selectable";
-    let selectableLastNode =
-      this.options.selectableLastNode !== undefined && isThereSubs
-        ? this.options.selectableLastNode
-        : false;
 
     itemHtml +=
-      '<li class="ct-item-' + (isThereSubs ? "parent" : "child") + '"> ';
+      '<li id="ct-' +
+      this.id +
+      "-li-" +
+      sourceItem.id +
+      '" class="ct-item-' +
+      (isThereSubs ? "parent" : "child") +
+      '"> ';
 
     itemHtml += `${
       isThereSubs
@@ -191,9 +191,7 @@
       data-selectable="${isSelectable}"
       class="ct-list-item-title ${selectableClass}"
     >${
-      this.options.isMultiple && !selectableLastNode && isSelectable
-        ? '<input type="checkbox" />'
-        : ""
+      this.options.isMultiple && isSelectable ? '<input type="checkbox" />' : ""
     }${sourceItem.title}</span>`;
 
     if (isThereSubs)
@@ -641,7 +639,8 @@
 
   ComboTree.prototype.clearSelection = function () {
     for (i = 0; i < this._selectedItems.length; i++) {
-      let itemElemSelector = "#" + this.id + "-li" + this._selectedItems[i].id;
+      let itemElemSelector =
+        "#ct-" + this.id + "-li-" + this._selectedItems[i].id;
       itemElemSelector = itemElemSelector.replaceAll(".", "\\.");
       let itemElem = this._wrapper.find(itemElemSelector);
       $(itemElem).find("input").prop("checked", false);

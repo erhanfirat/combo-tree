@@ -39,6 +39,15 @@
       <div class="flex">
         <div>
           <h3>Multi Selection</h3>
+          <pre>
+  comboTree1 = $("#justAnInputBox").comboTree({
+    source: SampleJSONData,
+    isMultiple: true,
+    cascadeSelect: false,
+    collapse: true,
+    withSelectAll: true,
+  });
+          </pre>
           <input
             type="text"
             id="justAnInputBox"
@@ -49,6 +58,14 @@
 
         <div>
           <h3>Multi Selection With Cascade Option Select</h3>
+          <pre>
+  comboTree3 = $("#justAnInputBox1").comboTree({
+    source: SampleJSONData,
+    isMultiple: true,
+    cascadeSelect: true,
+    collapse: false,
+  });
+          </pre>
           <input
             type="text"
             id="justAnInputBox1"
@@ -202,7 +219,6 @@
           isMultiple: true,
           cascadeSelect: false,
           collapse: true,
-          selectableLastNode: true,
           withSelectAll: true,
         });
 
