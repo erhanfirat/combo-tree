@@ -514,10 +514,15 @@
   };
 
   ComboTree.prototype.dropDownScrollToHoveredItem = function (itemSpan) {
-    const curScroll = this._sourceUl.scrollTop();
-    this._sourceUl
-      .parent()
-      .scrollTop(curScroll + $(itemSpan).offset().top - 100);
+    const curScroll = this._sourceUl.parent().scrollTop();
+    this._sourceUl.parent().scrollTop(itemSpan[0].offsetTop - 30);
+
+    console.log(
+      "prev scroll > ",
+      curScroll,
+      " | next scroll > ",
+      $(itemSpan).offset().top
+    );
   };
 
   ComboTree.prototype.dropDownMenuHoverToParentItem = function (item) {
