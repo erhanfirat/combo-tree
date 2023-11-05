@@ -93,7 +93,7 @@
 }
 
 .ct-drop-down-container li .not-selectable {
-  cursor: not-allowed;
+  color: #777;
 }
 
 .ct-drop-down-container li:hover {

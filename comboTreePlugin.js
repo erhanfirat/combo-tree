@@ -171,11 +171,7 @@
       : false;
     let isSelectable =
       sourceItem.isSelectable === undefined ? true : sourceItem.isSelectable;
-    let selectableClass =
-      isSelectable || isThereSubs ? "selectable" : "not-selectable";
-    if (this.options.isolatedSelectable) {
-      selectableClass = isSelectable ? "selectable" : "not-selectable";
-    }
+    let selectableClass = isSelectable ? "selectable" : "not-selectable";
     let selectableLastNode =
       this.options.selectableLastNode !== undefined && isThereSubs
         ? this.options.selectableLastNode
@@ -395,10 +391,7 @@
 
   // SELECTION FUNCTIONS
   ComboTree.prototype.selectMultipleItem = function (ctItem) {
-    if (
-      this.options.selectableLastNode &&
-      $(ctItem).parent("li").hasClass("ct-item-parent")
-    ) {
+    if ($(ctItem).parent("li").hasClass("ct-item-parent")) {
       this.toggleSelectionTree($(ctItem).parent("li"));
 
       return false;
