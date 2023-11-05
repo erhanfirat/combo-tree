@@ -58,7 +58,7 @@
 
     this._dropDownContainer.html(this.createSourceHTML());
     this._filterInput = this.options.isMultiple
-      ? $("#" + this.id + "-multi-filter")
+      ? this._wrapper.find("#" + this.id + "-multi-filter")
       : null;
     this._selectAllInput =
       this.options.isMultiple && this.options.withSelectAll
@@ -143,7 +143,9 @@
       this.id +
       "-source-ul" +
       (parentId ? parentId : "-main") +
-      '" class="ct-source-ul-main" style="' +
+      '" class="ct-source-ul-' +
+      (parentId ? "parent" : "main") +
+      '" style="' +
       ((this.options.collapse || collapse) && parentId ? "display:none;" : "") +
       '">';
     for (let i = 0; i < subItems.length; i++) {
@@ -180,44 +182,21 @@
       (isThereSubs ? "parent" : "child") +
       '"> ';
 
-    // itemHtml +=
-    //   '<span data-id="' +
-    //   sourceItem.id +
-    //   '" data-selectable="' +
-    //   isSelectable +
-    //   '"';
-
-    if (isThereSubs)
-      itemHtml +=
-        '<span class="ct-parent-plus">' +
-        (this.options.collapse || collapse ? "+" : "-") +
-        "</span>";
-
-    if (this.options.isMultiple)
-      itemHtml +=
-        '<span data-id="' +
-        sourceItem.id +
-        '" data-selectable="' +
-        isSelectable +
-        '" class="ct-list-item-title ' +
-        selectableClass +
-        '">' +
-        (!selectableLastNode && isSelectable
-          ? '<input type="checkbox" />'
-          : "") +
-        sourceItem.title +
-        "</span>";
-    else
-      itemHtml +=
-        '<span data-id="' +
-        sourceItem.id +
-        '" data-selectable="' +
-        isSelectable +
-        '" class="ct-list-item-title ' +
-        selectableClass +
-        '">' +
-        sourceItem.title +
-        "</span>";
+    itemHtml += `${
+      isThereSubs
+        ? `<span class="ct-parent-plus">${
+            this.options.collapse || collapse ? "+" : "-"
+          }</span>`
+        : ""
+    }<span
+      data-id="${sourceItem.id}"
+      data-selectable="${isSelectable}"
+      class="ct-list-item-title ${selectableClass}"
+    >${
+      this.options.isMultiple && !selectableLastNode && isSelectable
+        ? '<input type="checkbox" />'
+        : ""
+    }${sourceItem.title}</span>`;
 
     if (isThereSubs)
       itemHtml += this.createSourceSubItemsHTML(
@@ -237,7 +216,7 @@
 
     $(this._input).focus(function (e) {
       if (!_this._dropDownContainer.is(":visible"))
-        $(_this._dropDownContainer).slideToggle(this.options.animationTime);
+        $(_this._dropDownContainer).slideToggle(_this.options.animationTime);
     });
 
     this._arrowBtn.on("click", function (e) {
@@ -442,8 +421,8 @@
           this._selectedItems.push(this._selectedItem);
           $(ctItem).find("input").prop("checked", true);
         }
-      } // if check
-    } // if selectable
+      }
+    }
   };
 
   ComboTree.prototype.singleItemClick = function (ctItem) {
@@ -452,16 +431,18 @@
         id: $(ctItem).attr("data-id"),
         title: $(ctItem).text(),
       };
-    } // if selectable
 
-    this.refreshInputVal();
-    this.closeDropDownMenu();
+      this.refreshInputVal();
+      this.closeDropDownMenu();
+    } else if ($(ctItem).parent("li").hasClass("ct-item-parent")) {
+      this.toggleSelectionTree($(ctItem).parent("li"));
+    }
   };
 
   ComboTree.prototype.multiItemClick = function (ctItem) {
     this.selectMultipleItem(ctItem);
 
-    if (this.options.cascadeSelect) {
+    if (this.options.cascadeSelect && $(ctItem).data("selectable")) {
       if ($(ctItem).parent("li").hasClass("ct-item-parent")) {
         const subMenu = $(ctItem)
           .parent("li")
@@ -523,8 +504,8 @@
   };
 
   ComboTree.prototype.dropDownMenuHover = function (itemSpan, withScroll) {
-    this._wrapper.find(".comboTreeItemHover").removeClass("comboTreeItemHover");
-    $(itemSpan).addClass("comboTreeItemHover");
+    this._wrapper.find(".ct-tree-item-hover").removeClass("ct-tree-item-hover");
+    $(itemSpan).addClass("ct-tree-item-hover");
     this._elemHoveredItem = $(itemSpan);
     if (withScroll) this.dropDownScrollToHoveredItem(this._elemHoveredItem);
   };
@@ -551,39 +532,43 @@
     else if (direction == -1) this.dropDownMenuHoverToParentItem(item);
   };
 
-  (ComboTree.prototype.dropDownInputKeyControl = function (step) {
+  ComboTree.prototype.dropDownInputKeyControl = function (step) {
     if (!this._dropDownContainer.is(":visible")) this.toggleDropDown();
 
     const list = this._listItems.find("span.ct-list-item-title:visible");
-    i = this._elemHoveredItem ? list.index(this._elemHoveredItem) + step : 0;
+    const i = this._elemHoveredItem
+      ? list.index(this._elemHoveredItem) + step
+      : 0;
     i = (list.length + i) % list.length;
 
     this.dropDownMenuHover(list[i], true);
-  }),
-    (ComboTree.prototype.filterDropDownMenu = function () {
-      const searchText = "";
-      if (!this.options.isMultiple) searchText = this._input.val();
-      else searchText = $("#" + this.id + "multi-filter").val();
+  };
 
-      if (searchText != "") {
-        this._listItemsTitle.hide();
-        this._listItemsTitle.siblings("span.ct-parent-plus").hide();
-        list = this._listItems
-          .filter(function (index, item) {
-            return (
-              item.innerHTML.toLowerCase().indexOf(searchText.toLowerCase()) !=
-              -1
-            );
-          })
-          .each(function (i, elem) {
-            $(this.children).show();
-            $(this).siblings("span.ct-parent-plus").show();
-          });
-      } else {
-        this._listItemsTitle.show();
-        this._listItemsTitle.siblings("span.ct-parent-plus").show();
-      }
-    });
+  ComboTree.prototype.filterDropDownMenu = function () {
+    let searchText = "";
+    const _this = this;
+    if (!this.options.isMultiple) searchText = this._input.val();
+    else
+      searchText = this._wrapper.find("#" + _this.id + "-multi-filter").val();
+
+    if (searchText != "") {
+      this._listItemsTitle.hide();
+      this._listItemsTitle.siblings("span.ct-parent-plus").hide();
+      list = this._listItems
+        .filter(function (index, item) {
+          return (
+            item.innerHTML.toLowerCase().indexOf(searchText.toLowerCase()) != -1
+          );
+        })
+        .each(function (i, elem) {
+          $(this.children).show();
+          $(this).siblings("span.ct-parent-plus").show();
+        });
+    } else {
+      this._listItemsTitle.show();
+      this._listItemsTitle.siblings("span.ct-parent-plus").show();
+    }
+  };
 
   ComboTree.prototype.processSelected = function () {
     const elements = this._listItemsTitle;
@@ -605,7 +590,6 @@
       }
     });
 
-    //Without this it doesn't work
     this._selectedItem = selectedItem;
 
     this.refreshInputVal();
@@ -663,8 +647,8 @@
 
   ComboTree.prototype.setSource = function (source) {
     this._selectedItems = [];
-
     this.destroy();
+
     this.options.source = source;
     this.constructorFunc(this.input, this.options);
   };
@@ -673,7 +657,7 @@
     for (i = 0; i < this._selectedItems.length; i++) {
       let itemElemSelector = "#" + this.id + "-li" + this._selectedItems[i].id;
       itemElemSelector = itemElemSelector.replaceAll(".", "\\.");
-      let itemElem = $(itemElemSelector);
+      let itemElem = this._wrapper.find(itemElemSelector);
       $(itemElem).find("input").prop("checked", false);
     }
     this._selectedItems = [];
@@ -735,7 +719,8 @@
     this._selectedItems = [];
     // select all
     let selected = this._selectedItems;
-    $("#" + this.id + "-source-ul-main")
+    this._wrapper
+      .find("#" + this.id + "-source-ul-main")
       .find("input[type='checkbox']")
       .each(function (idx, elem) {
         let $itemElem = $(elem).parent("span").first();

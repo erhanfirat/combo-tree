@@ -84,10 +84,8 @@
 
 .ct-drop-down-container li {
   list-style-type: none;
-  padding-left: 0.75rem;
-}
-
-.ct-drop-down-container li .selectable {
+  padding-left: 1rem;
+  position: relative;
   cursor: pointer;
 }
 
@@ -101,17 +99,25 @@
 .ct-drop-down-container li:hover ul {
   background-color: var(--ct-bg);
 }
-.ct-drop-down-container li span.ct-list-item-title.comboTreeItemHover,
-.ct-drop-down-container label.comboTreeItemHover {
+.ct-drop-down-container li span.ct-list-item-title.ct-tree-item-hover,
+.ct-drop-down-container label.ct-tree-item-hover {
   background-color: var(--ct-selection);
   color: var(--ct-bg);
   border-radius: 2px;
+}
+.ct-drop-down-container
+  li
+  span[data-selectable="false"].ct-list-item-title.ct-tree-item-hover,
+.ct-drop-down-container label.ct-tree-item-hover {
+  background-color: var(--ct-border-color);
+  color: #777;
+  cursor: default;
 }
 
 span.ct-list-item-title,
 .ct-drop-down-container .select-all {
   display: block;
-  padding: 3px var(--ct-padding);
+  padding: 0.25rem 1rem;
 }
 .ct-drop-down-container label {
   cursor: pointer;
@@ -126,14 +132,15 @@ span.ct-list-item-title,
 }
 
 .ct-parent-plus {
-  position: relative;
+  position: absolute;
   display: inline-block;
-  width: 0.75rem;
-  left: -0.75rem;
-  top: 0.25rem;
+  width: 1rem;
+  left: 0;
+  padding-top: 0.25rem;
   cursor: pointer;
   font-weight: bold;
-  font-size: 0.75rem;
+  font-size: 1rem;
+  text-align: center;
 }
 
 .ct-input-box:focus {
