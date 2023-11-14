@@ -34,7 +34,7 @@ ComboTree is a jQuery Plugin which is a combobox item within tree structured dat
 - **source**: _{JSON Data Array}_ | takes source of combobox dropdown menu as a JSON array.
 - **selected**: _{JSON Data Array}_ | takes the list of ID's that corespond from the source.
 - **collapse**: _{true/false} | default: false_ | makes sub lists collapsed.
-- **withSelectAll**: _{true/false} | default: false_ | decide if use 'select all' feature.
+- **selectAll**: _{true/false} | default: false_ | decide if use 'select all' feature.
 
 ## Methods
 

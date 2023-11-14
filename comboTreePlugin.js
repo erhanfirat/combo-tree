@@ -15,7 +15,7 @@
     cascadeSelect: false,
     selected: [],
     collapse: false,
-    withSelectAll: false,
+    selectAll: false,
     animationTime: 200,
   };
 
@@ -59,7 +59,7 @@
       ? this._wrapper.find("#" + this.id + "-multi-filter")
       : null;
     this._selectAllInput =
-      this.options.isMultiple && this.options.withSelectAll
+      this.options.isMultiple && this.options.selectAll
         ? this._wrapper.find(".select-all-input")
         : null;
     this._sourceUl = this._wrapper.find(".ct-source-ul-main");
@@ -107,7 +107,7 @@
     let sourceHTML = "";
     if (this.options.isMultiple)
       sourceHTML += this.createFilterHTMLForMultiSelect();
-    // if (this.options.isMultiple && this.options.withSelectAll)
+    // if (this.options.isMultiple && this.options.selectAll)
     //   sourceHTML += this.createSelectAllHTMLForMultiSelect();
     sourceHTML += this.createSourceSubItemsHTML(this.options.source, false);
     return sourceHTML;
@@ -147,11 +147,7 @@
       ((this.options.collapse || collapse) && parentId ? "display:none;" : "") +
       '">';
 
-    if (
-      parentId === false &&
-      this.options.isMultiple &&
-      this.options.withSelectAll
-    )
+    if (parentId === false && this.options.isMultiple && this.options.selectAll)
       subItemsHtml += this.createSelectAllHTMLForMultiSelect();
 
     for (let i = 0; i < subItems.length; i++) {

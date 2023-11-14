@@ -45,7 +45,7 @@
     isMultiple: true,
     cascadeSelect: false,
     collapse: true,
-    withSelectAll: true,
+    selectAll: true,
   });
           </pre>
           <input
@@ -98,7 +98,7 @@
     cascadeSelect: false,
     selected: [],
     collapse: false,
-    withSelectAll: false,
+    selectAll: false,
     animationTime: 200,
   };
           </pre>
@@ -238,8 +238,8 @@
           source: SampleJSONData,
           isMultiple: true,
           cascadeSelect: false,
-          collapse: true,
-          withSelectAll: true,
+          collapse: false,
+          selectAll: true,
         });
 
         comboTree3 = $("#justAnInputBox1").comboTree({
@@ -255,6 +255,8 @@
           source: SampleJSONData,
           isMultiple: false,
         });
+
+        comboTree1.toggleDropDown();
       });
     </script>
   </body>
