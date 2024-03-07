@@ -159,7 +159,7 @@
 
   ComboTree.prototype.createSourceItemHTML = function (sourceItem) {
     let itemHtml = "";
-    const isThereSubs = sourceItem.hasOwnProperty("subs");
+    let isThereSubs = sourceItem.hasOwnProperty("subs") ? (sourceItem.subs.length > 0) : false;
     const collapse = sourceItem.hasOwnProperty("collapse")
       ? sourceItem.hasOwnProperty("collapse")
       : false;
